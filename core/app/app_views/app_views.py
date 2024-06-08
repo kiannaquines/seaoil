@@ -29,7 +29,7 @@ def products_index(request):
 
 @login_required(login_url="/auth/login/")
 def warehouseproducts_index(request):
-    return render(request,"warehouseproucts.html")
+    return render(request,"warehouseproducts.html")
 
 @login_required(login_url="/auth/login/")
 def sales_index(request):
