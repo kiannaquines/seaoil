@@ -7,7 +7,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.hashers import make_password
 from app.decorators import check_already_loggedin
 
-@login_required(login_url="auth/login")
+@login_required(login_url="auth/login/")
 def index(request):
 	return render(request,"index.html")
 
@@ -23,7 +23,7 @@ def auth_login(request):
 
 			if login_action[0].is_active is not True:
 				messages.error(request,"Your account is not activated yet, wait while we process your account activation.")
-				return HttpResponseRedirect('/auth/login')
+				return HttpResponseRedirect('/auth/login/')
 			else:
 				auth = authenticate(request,username=username,password=password)
 			
