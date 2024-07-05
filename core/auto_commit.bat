@@ -1,3 +1,5 @@
+@echo off
+
 set /p message="Enter your commit message: "
 set /p branch="Enter your branch name: "
 
