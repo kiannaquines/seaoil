@@ -1,0 +1,68 @@
+{% extends './../includes/add_modal.html' %}
+{% block modalTitle %}Add Warehouse Product{% endblock %}
+{% block modal %}
+        <div class="row">
+            <div class="col mb-3">
+                <label 
+                    for="{{ warehouseproducts_form.warehouse_product_name.id_for_label }}"
+                    class="form-label">
+                    {{ warehouseproducts_form.warehouse_product_name.label }}
+                </label>
+                {{ warehouseproducts_form.warehouse_product_name }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col mb-3">
+                <label 
+                    for="{{ warehouseproducts_form.warehouse_product_stock.id_for_label }}"
+                    class="form-label">
+                    {{ warehouseproducts_form.warehouse_product_stock.label }}
+                </label>
+                {{ warehouseproducts_form.warehouse_product_stock }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col mb-3">
+                <label 
+                    for="{{ warehouseproducts_form.warehouse_product_category.id_for_label }}"
+                    class="form-label">
+                    {{ warehouseproducts_form.warehouse_product_category.label }}
+                </label>
+                {{ warehouseproducts_form.warehouse_product_category }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col mb-3">
+                <label 
+                    for="{{ warehouseproducts_form.warehouse_product_description.id_for_label }}"
+                    class="form-label">
+                    {{ warehouseproducts_form.warehouse_product_description.label }}
+                </label>
+                {{ warehouseproducts_form.warehouse_product_description }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col mb-3">
+                <label 
+                    for="{{ warehouseproducts_form.warehouse_product_supplier.id_for_label }}"
+                    class="form-label">
+                    {{ warehouseproducts_form.warehouse_product_supplier.label }}
+                </label>
+                {{ warehouseproducts_form.warehouse_product_supplier }}
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col mb-3">
+                <label 
+                    for="{{ warehouseproducts_form.warehouse_product_picture.id_for_label }}"
+                    class="form-label">
+                    {{ warehouseproducts_form.warehouse_product_picture.label }}
+                </label>
+                {{ warehouseproducts_form.warehouse_product_picture }}
+            </div>
+        </div>
+
+{% endblock modal %}

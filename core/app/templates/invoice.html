@@ -7,6 +7,9 @@
 {% endblock pagecss %}
 
 {% block content %}
+
+{% include './includes/messages.html' %}
+
 <div class="card">
     <div class="d-flex justify-content-between align-items-center">
         <h5 class="card-header">Seaoil Invoice</h5>
@@ -15,10 +18,10 @@
                 <i class="bx bx-printer me-sm-1"></i>
                 Generate Sales
             </a>
-            <a href="#" class="btn btn-primary">
+            <button data-bs-toggle="modal" data-bs-target="#addModal" class="btn btn-primary">
                 <i class="bx bx-plus me-sm-1"></i>
                 Add Invoice
-            </a>
+            </button>
         </div>
     </div>
     <div class="table-responsive text-nowrap">

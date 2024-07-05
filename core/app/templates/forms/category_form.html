@@ -1,0 +1,11 @@
+{% extends './../includes/add_modal.html' %}
+
+{% block modalTitle %}Add Category{% endblock %}
+{% block modal %}
+        <div class="row">
+            <div class="col mb-3">
+            <label for="{{ category_form.category_name.id_for_label  }}" class="form-label">{{ category_form.category_name.label }}</label>
+            {{ category_form.category_name }}
+            </div>
+        </div>
+{% endblock %}
