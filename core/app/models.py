@@ -86,6 +86,7 @@ class SaleModel(models.Model):
     sale_amount = models.FloatField()
     sale_customername = models.CharField(max_length=255)
     sale_date = models.DateTimeField(auto_now_add=True)
+    encoded_by = models.ForeignKey('CustomUser',on_delete=models.DO_NOTHING)
     sale_date_added = models.DateTimeField(auto_now_add=True)
 
 
@@ -102,7 +103,7 @@ class InvoiceModel(models.Model):
     invoice_date_added = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
-        return self.invoice.sale_product.product_warehouse_product.warehouse_product_name
+        return self.invoice_sale_product.sale_product.product_warehouse_product.warehouse_product_name
     
     class Meta:
         verbose_name = "Invoice"

@@ -1,36 +1,82 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-
-
-
-@login_required(login_url="/auth/login/")
-def users_index(request):
-    return render(request,"users.html")
+from app.models import *
 
 @login_required(login_url="/auth/login/")
 def supplier_index(request):
-    return render(request,"supplier.html")
+    suppliers = SupplierModel.objects.all()
+
+    context = {
+        'suppliers':suppliers,
+    }
+
+    return render(request,"supplier.html",context)
+
+@login_required(login_url="/auth/login/")
+def users_index(request):
+    users = CustomUser.objects.all()
+
+    context = {
+        'users': users
+    }
+
+    return render(request,"users.html",context)
+
 
 @login_required(login_url="/auth/login/")
 def category_index(request):
-    return render(request,"category.html")
+    categories = CategoryModel.objects.all()
+    context = {
+        'categories':categories,
+    }
+
+    return render(request,"category.html",context)
 
 @login_required(login_url="/auth/login/")
 def inventory_index(request):
-    return render(request,"inventory.html")
+    inventories = InventoryModel.objects.all()
+    context = {
+        'inventories':inventories,
+    }
+
+    return render(request,"inventory.html",context)
 
 @login_required(login_url="/auth/login/")
 def invoice_index(request):
-    return render(request,"invoice.html")
+    invoices = InvoiceModel.objects.all()
+    
+    context = {
+        'invoices':invoices,
+    }
+
+    return render(request,"invoice.html",context)
 
 @login_required(login_url="/auth/login/")
 def products_index(request):
-    return render(request,"products.html")
+    products = ProductModel.objects.all()
+
+    context = {
+        'products':products,
+    }
+
+    return render(request,"products.html",context)
 
 @login_required(login_url="/auth/login/")
 def warehouseproducts_index(request):
-    return render(request,"warehouseproducts.html")
+    warehouseproducts = WarehouseProductModel.objects.all()
+
+    context = {
+        'warehouseproducts':warehouseproducts,
+    }
+
+    return render(request,"warehouseproducts.html",context)
 
 @login_required(login_url="/auth/login/")
 def sales_index(request):
-    return render(request,"sales.html")
+    sales = SaleModel.objects.all()
+
+    context = {
+        'sales':sales,
+    }
+
+    return render(request,"sales.html",context)

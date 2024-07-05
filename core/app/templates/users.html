@@ -1,2 +1,71 @@
 {% extends 'includes/base.html' %}
 {% load static %}
+
+
+{% block pagecss %}
+<link rel="stylesheet" href="{% static 'assets/vendor/css/datatables.min.css' %}">
+{% endblock pagecss %}
+
+{% block content %}
+<div class="card">
+    <h5 class="card-header">User List</h5>
+    <div class="table-responsive text-nowrap">
+        <table class="table" id="MydataTable">
+            <caption class="ms-4">List of users</caption>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Firstname</th>
+                    <th>Lastname</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>
+                        <span class="fw-medium">
+                            {{ user.username }}
+                        </span>
+                    </td>
+                    <td>{{ user.first_name }}</td>
+                    <td>{{ user.last_name }}</td>
+                    <td>
+                        {% if user.is_active == 1 %}
+                        <span class="badge bg-label-primary me-1">Active</span>
+                        {% else %}
+                        <span class="badge bg-label-danger me-1">Inactive</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ user.date_joined }}</td>
+                    <td>
+                        <div class="dropdown">
+                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                <i class="bx bx-dots-vertical-rounded"></i>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" data-user="{{ user.id }}" href="javascript:void(0);">
+                                    <i class="bx bx-edit-alt me-1"></i>
+                                    Edit
+                                </a>
+                                <a class="dropdown-item" data-user="{{ user.id }}" href="javascript:void(0);">
+                                    <i class="bx bx-trash me-1"></i>
+                                    Delete
+                                </a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock content %}
+
+{% block pagejs %}
+<script src="{% static 'assets/js/datatables.min.js' %}"></script>
+<script src="{% static 'assets/js/ui-tables.js' %}"></script>
+{% endblock pagejs %}

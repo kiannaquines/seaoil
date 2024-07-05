@@ -1,2 +1,63 @@
 {% extends 'includes/base.html' %}
 {% load static %}
+
+
+{% block pagecss %}
+<link rel="stylesheet" href="{% static 'assets/vendor/css/datatables.min.css' %}">
+{% endblock pagecss %}
+
+{% block content %}
+<div class="card">
+    <h5 class="card-header">Supplier List</h5>
+    <div class="table-responsive text-nowrap">
+        <table class="table" id="MydataTable">
+            <caption class="ms-4">List of lubricant suppliers</caption>
+            <thead>
+                <tr>
+                    <th>Company</th>
+                    <th>Mobile No.</th>
+                    <th>Date Added</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for supplier in suppliers %}
+                <tr>
+                    <td>
+                        <span class="fw-medium">
+                            {{ supplier.supplier_companyname }}
+                        </span>
+                    </td>
+                    <td>{{ supplier.supplier_mobilenumber }}</td>
+                    <td>{{ supplier.supplier_date_added }}</td>
+                    <td><span class="badge bg-label-primary me-1">Active</span></td>
+                    <td>
+                        <div class="dropdown">
+                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                <i class="bx bx-dots-vertical-rounded"></i>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" data-supplier="{{ supplier.supplier_id }}" href="javascript:void(0);">
+                                    <i class="bx bx-edit-alt me-1"></i>
+                                    Edit
+                                </a>
+                                <a class="dropdown-item" data-supplier="{{ supplier.supplier_id }}" href="javascript:void(0);">
+                                    <i class="bx bx-trash me-1"></i>
+                                    Delete
+                                </a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock content %}
+
+{% block pagejs %}
+<script src="{% static 'assets/js/datatables.min.js' %}"></script>
+<script src="{% static 'assets/js/ui-tables.js' %}"></script>
+{% endblock pagejs %}

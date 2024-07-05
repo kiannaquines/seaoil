@@ -1,2 +1,60 @@
 {% extends 'includes/base.html' %}
 {% load static %}
+
+{% block pagecss %}
+<link rel="stylesheet" href="{% static 'assets/vendor/css/datatables.min.css' %}">
+{% endblock pagecss %}
+
+{% block content %}
+<div class="card">
+    <h5 class="card-header">Inventory List</h5>
+    <div class="table-responsive text-nowrap">
+        <table class="table" id="MydataTable">
+            <caption class="ms-4">Products that are in inventory</caption>
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Total Stock</th>
+                    <th>Date Added</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for inventory in inventories %}
+                <tr>
+                    <td>
+                        <span class="fw-medium">
+                            {{ inventory.inventory_product }}
+                        </span>
+                    </td>
+                    <td>{{ inventory.inventory_product.product_warehouse_product.warehouse_product_stock }}</td>
+                    <td>{{ inventory.inventory_date_added }}</td>
+                    <td>
+                        <div class="dropdown">
+                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                <i class="bx bx-dots-vertical-rounded"></i>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" data-inventory="{{ inventory.inventory_id }}" href="javascript:void(0);">
+                                    <i class="bx bx-edit-alt me-1"></i>
+                                    Edit
+                                </a>
+                                <a class="dropdown-item" data-inventory="{{ inventory.inventory_id }}" href="javascript:void(0);">
+                                    <i class="bx bx-trash me-1"></i>
+                                    Delete
+                                </a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock content %}
+
+{% block pagejs %}
+<script src="{% static 'assets/js/datatables.min.js' %}"></script>
+<script src="{% static 'assets/js/ui-tables.js' %}"></script>
+{% endblock pagejs %}
