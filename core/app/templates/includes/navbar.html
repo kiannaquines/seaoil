@@ -41,6 +41,12 @@
             </a>
           </li>
           <li>
+            <a class="dropdown-item" href="{% url 'user_profile' pk=request.user.id %}">
+              <i class="bx bx-user me-2"></i>
+              <span class="align-middle">Profile</span>
+            </a>
+          </li>
+          <li>
             <div class="dropdown-divider"></div>
           </li>
           <li>

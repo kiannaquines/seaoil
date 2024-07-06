@@ -63,3 +63,16 @@ def auth_register(request):
 		return HttpResponseRedirect("/auth/login")
 
 	return render(request,"auth/register.html")
+
+@login_required(login_url="auth/login/")
+def user_profile(request,pk):
+	context = {}
+	if request.method == "GET":
+		user = CustomUser.objects.get(pk=pk)
+		context["user"] = user
+		return render(request,"auth/profile.html",context)
+	
+@login_required(login_url="auth/login/")
+def user_update(request,pk):
+	pass
+

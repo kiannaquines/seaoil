@@ -1,0 +1,20 @@
+{% extends 'includes/base.html' %}
+{% load static %}
+
+
+{% block pagecss %}
+<link rel="stylesheet" href="{% static 'assets/vendor/css/datatables.min.css' %}">
+{% endblock pagecss %}
+
+{% block content %}
+
+{% include './includes/messages.html' %}
+<div class="card">
+    
+</div>
+{% endblock content %}
+
+{% block pagejs %}
+<script src="{% static 'assets/js/datatables.min.js' %}"></script>
+<script src="{% static 'assets/js/ui-tables.js' %}"></script>
+{% endblock pagejs %}

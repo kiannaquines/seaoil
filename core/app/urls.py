@@ -26,4 +26,7 @@ urlpatterns = [
     path("product/confirmation/<pk>",ProductDeleteView.as_view(),name="product_delete"),
     path("sale/edit/<pk>",SaleUpdateView.as_view(),name="sale_edit"),
     path("sale/confirmation/<pk>",SaleDeleteView.as_view(),name="sale_delete"),
+
+
+    path('user/profile/<int:pk>',user_profile,name="user_profile"),
 ]
