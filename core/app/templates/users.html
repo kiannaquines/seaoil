@@ -9,7 +9,6 @@
 {% block content %}
 
 {% include './includes/messages.html' %}
-
 <div class="card">
     <div class="d-flex justify-content-between align-items-center">
         <h5 class="card-header">User List</h5>
@@ -22,7 +21,7 @@
     </div>
     <div class="table-responsive text-nowrap">
         <table class="table" id="MydataTable">
-            <caption class="ms-4">List of users</caption>
+            <caption class="ms-3">List of users</caption>
             <thead>
                 <tr>
                     <th>Username</th>
@@ -74,6 +73,7 @@
         </table>
     </div>
 </div>
+{% include './forms/user_form.html' %}
 {% endblock content %}
 
 {% block pagejs %}

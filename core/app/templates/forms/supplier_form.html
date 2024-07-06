@@ -1,24 +1,12 @@
 {% extends './../includes/add_modal.html' %}
-{% block modalTitle %}Add Supplier{% endblock %}
+{% block modalTitle %}Add supplier{% endblock %}
 {% block modal %}
-        <div class="row">
-            <div class="col mb-3">
-            <label for="{{ supplier_form.supplier_companyname.id_for_label  }}" class="form-label">{{ supplier_form.supplier_companyname.label }}</label>
-            {{ supplier_form.supplier_companyname }}
+        {% for input in supplier_form %}
+            <div class="row">
+                <div class="col mb-3">
+                <label for="{{ input.id_for_label  }}" class="form-label">{{ input.label }}</label>
+                {{ input }}
+                </div>
             </div>
-        </div>
-
-        <div class="row">
-            <div class="col mb-3">
-            <label for="{{ supplier_form.supplier_mobilenumber.id_for_label }}" class="form-label">{{ supplier_form.supplier_mobilenumber.label }}</label>
-            {{ supplier_form.supplier_mobilenumber }}
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col mb-3">
-            <label for="{{ supplier_form.supplier_address.id_for_label }}" class="form-label">{{ supplier_form.supplier_address.label }}</label>
-            {{ supplier_form.supplier_address }}
-            </div>
-        </div>
+        {% endfor %}
 {% endblock modal %}

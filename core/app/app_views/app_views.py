@@ -4,6 +4,7 @@ from app.models import *
 from app.forms import *
 from django.http import HttpResponseRedirect
 from django.contrib import messages
+from django.views.generic import CreateView, DeleteView, UpdateView
 
 # DONE
 @login_required(login_url="/auth/login/")
@@ -25,16 +26,35 @@ def supplier_index(request):
         
     return render(request,"supplier.html",context)
 
+class SupplierEditView(UpdateView):
+    pk_url_kwargs = "pk"
+    model = SupplierModel
+    template_name = "forms/supplier_form.html"
+
+
+
 @login_required(login_url="/auth/login/")
 def users_index(request):
     users = CustomUser.objects.all()
+    user_form = UserRegistrationForm()
+
     context = {
-        'users': users
+        'users': users,
+        'register_form': user_form,
     }
 
     if request.method == "POST":
-        pass
-
+        user_form = UserRegistrationForm(request.POST)
+        if user_form.is_valid():
+            user_form.save()
+            messages.success(request,"You have added new user, thank you!",extra_tags="add_success")
+            return HttpResponseRedirect("/users/")
+        else:
+            for user_error in user_form.errors:
+                for error in user_form.errors[user_error]:
+                    messages.error(request,error,extra_tags="some_error")
+            return HttpResponseRedirect("/users/")
+        
     return render(request,"users.html",context)
 
 # DONE
@@ -58,7 +78,7 @@ def category_index(request):
 
 @login_required(login_url="/auth/login/")
 def inventory_index(request):
-    inventories = InventoryModel.objects.all()
+    inventories = WarehouseProductModel.objects.all()
     context = {
         'inventories':inventories,
     }
@@ -66,22 +86,24 @@ def inventory_index(request):
     return render(request,"inventory.html",context)
 
 @login_required(login_url="/auth/login/")
-def invoice_index(request):
-    invoices = InvoiceModel.objects.all()
-    
-    context = {
-        'invoices':invoices,
-    }
-
-    return render(request,"invoice.html",context)
-
-@login_required(login_url="/auth/login/")
 def products_index(request):
     products = ProductModel.objects.all()
+    products_form = ProductForm()
 
     context = {
         'products':products,
+        'products_form':products_form,
     }
+
+    if request.method == "POST":
+        products_form = ProductForm(request.POST)
+        if products_form.is_valid():
+            products_form.save()
+            messages.success(request,"You have added new product, thank you!",extra_tags="add_success")
+            return HttpResponseRedirect("/product/")
+        else:
+            messages.error(request,"Something went wrong, please try again.",extra_tags="some_error")
+            return HttpResponseRedirect("/product/")
 
     return render(request,"products.html",context)
 
@@ -110,9 +132,21 @@ def warehouseproducts_index(request):
 @login_required(login_url="/auth/login/")
 def sales_index(request):
     sales = SaleModel.objects.all()
+    sale_form = SalesForm()
 
     context = {
         'sales':sales,
+        'form_sales':sale_form,
     }
 
+    if request.method == "POST":
+        sale_form = SalesForm(request.POST)
+        if sale_form.is_valid():
+            sale_form.save()
+            messages.success(request,"You have added new sale, thank you!",extra_tags="add_success")
+            return HttpResponseRedirect("/sales/")
+        else:
+            messages.error(request,"Something went wrong, please try again.",extra_tags="some_error")
+            return HttpResponseRedirect("/sales/")
+        
     return render(request,"sales.html",context)

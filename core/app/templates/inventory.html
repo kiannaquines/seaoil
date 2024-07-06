@@ -14,20 +14,22 @@
         <h5 class="card-header">Inventory List</h5>
         <div class="m-3">
             <button data-bs-toggle="modal" data-bs-target="#addModal" class="btn btn-primary">
-                <i class="bx bx-plus me-sm-1"></i>
-                Add Inventory
+                <i class="bx bx-printer me-sm-1"></i>
+                Generate Inventory Report
             </button>
         </div>
     </div>
     <div class="table-responsive text-nowrap">
         <table class="table" id="MydataTable">
-            <caption class="ms-4">Products that are in inventory</caption>
+            <caption class="ms-3">Products that are in inventory</caption>
             <thead>
                 <tr>
                     <th>Product Name</th>
-                    <th>Total Stock</th>
+                    <th>Stock</th>
+                    <th>Supplier</th>
+                    <th>Category</th>
+                    <th>Status</th>
                     <th>Date Added</th>
-                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -35,28 +37,16 @@
                 <tr>
                     <td>
                         <span class="fw-medium">
-                            {{ inventory.inventory_product }}
+                            {{ inventory.warehouse_product_name }}
                         </span>
                     </td>
-                    <td>{{ inventory.inventory_product.product_warehouse_product.warehouse_product_stock }}</td>
-                    <td>{{ inventory.inventory_date_added }}</td>
+                    <td>{{ inventory.warehouse_product_stock }}</td>
+                    <td>{{ inventory.warehouse_product_supplier }}</td>
+                    <td>{{ inventory.warehouse_product_category }}</td>
                     <td>
-                        <div class="dropdown">
-                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                <i class="bx bx-dots-vertical-rounded"></i>
-                            </button>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" data-inventory="{{ inventory.inventory_id }}" href="javascript:void(0);">
-                                    <i class="bx bx-edit-alt me-1"></i>
-                                    Edit
-                                </a>
-                                <a class="dropdown-item" data-inventory="{{ inventory.inventory_id }}" href="javascript:void(0);">
-                                    <i class="bx bx-trash me-1"></i>
-                                    Delete
-                                </a>
-                            </div>
-                        </div>
+                        <span class="badge bg-label-primary me-1">{{ inventory.warehouse_product_status }}</span>
                     </td>
+                    <td>{{ inventory.warehouse_product_date_added }}</td>
                 </tr>
                 {% endfor %}
             </tbody>

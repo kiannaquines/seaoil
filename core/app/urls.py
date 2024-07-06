@@ -11,8 +11,10 @@ urlpatterns = [
     path("suppliers/",supplier_index,name="supplier_index"),
     path("inventory/",inventory_index,name="inventory_index"),
     path("category/",category_index,name="category_index"),
-    path("invoice/",invoice_index,name="invoice_index"),
     path("product/",products_index,name="products_index"),
     path("sales/",sales_index,name="sales_index"),
     path("warehouseproducts/",warehouseproducts_index,name="warehouseproducts_index"),
+
+
+    path("supplier_edit/<pk>",SupplierEditView.as_view(),name="supplier_edit")
 ]

@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from app.models import *
-
+from django.contrib.auth.forms import UserCreationForm
 
 class SupplierForm(ModelForm):
     def __init__(self, *args,**kwargs):
@@ -16,7 +16,6 @@ class SupplierForm(ModelForm):
         model = SupplierModel
         fields = ['supplier_companyname','supplier_address','supplier_mobilenumber']
 
-
 class CategoryForm(ModelForm):
     def __init__(self,*args,**kwargs):
         super(CategoryForm,self).__init__(*args,**kwargs)
@@ -25,7 +24,6 @@ class CategoryForm(ModelForm):
     class Meta:
         model = CategoryModel
         fields = ['category_name']
-
 
 class WarehouseProductForm(ModelForm):
     def __init__(self,*args,**kwargs):
@@ -53,3 +51,74 @@ class WarehouseProductForm(ModelForm):
     class Meta:
         model = WarehouseProductModel
         fields = ['warehouse_product_name','warehouse_product_stock','warehouse_product_description','warehouse_product_category','warehouse_product_picture','warehouse_product_supplier',]
+
+class ProductForm(ModelForm):
+    def __init__(self,*args,**kwargs):
+        super(ProductForm,self).__init__(*args,**kwargs)
+        self.fields['product_warehouse_product'].widget.attrs.update({'class':'form-control','spellcheck':'false'})
+        self.fields['product_warehouse_product'].label = "Warehouse Product"
+
+        self.fields['product_price'].widget.attrs.update({'class':'form-control','spellcheck':'false','placeholder':'Price'})
+        self.fields['product_price'].label = "Price"
+
+        self.fields['product_quantity'].widget.attrs.update({'class':'form-control','spellcheck':'false','placeholder':'Quantity'})
+        self.fields['product_quantity'].label = "Quantity"
+    
+    class Meta:
+        model = ProductModel
+        fields = ['product_warehouse_product','product_price','product_quantity']
+
+class SalesForm(ModelForm):
+    def __init__(self,*args,**kwargs):
+        super(SalesForm,self).__init__(*args,**kwargs)
+        self.fields['sale_product'].widget.attrs.update({'class':'form-control','spellcheck':'false'})
+        self.fields['sale_product'].label = "Product"
+
+        self.fields['sale_quantity'].widget.attrs.update({'class':'form-control','spellcheck':'false','placeholder':'Quantity'})
+        self.fields['sale_quantity'].label = "Quantity"
+
+        self.fields['sale_customername'].widget.attrs.update({'class':'form-control','spellcheck':'false','placeholder':'Customer Name'})
+        self.fields['sale_customername'].label = "Customer Name"
+
+        self.fields['sale_amount'].widget.attrs.update({'class':'form-control','spellcheck':'false','placeholder':'Amount'})
+        self.fields['sale_amount'].label = "Amount"
+
+        self.fields['encoded_by'].widget.attrs.update({'class':'form-control','spellcheck':'false'})
+        self.fields['encoded_by'].label = "Encoded By"
+    
+    class Meta:
+        model = SaleModel
+        fields = ['sale_product','sale_quantity','sale_customername','sale_amount','encoded_by']
+        
+class UserRegistrationForm(UserCreationForm):
+    def __init__(self,*args,**kwargs):
+        super(UserRegistrationForm,self).__init__(*args,**kwargs)
+        self.fields['username'].widget.attrs.update({'class':'form-control','spellcheck':'false','placeholder':'Username'})
+        self.fields['username'].label = "Username"
+        self.fields['first_name'].widget.attrs.update({'class':'form-control','spellcheck':'false','placeholder':'First Name'})
+        self.fields['first_name'].label = "First Name"
+        self.fields['last_name'].widget.attrs.update({'class':'form-control','spellcheck':'false','placeholder':'Last Name'})
+        self.fields['last_name'].label = "Last Name"
+        self.fields['email'].widget.attrs.update({'class':'form-control','spellcheck':'false','placeholder':'Email'})
+        self.fields['email'].label = "Email"
+
+        self.fields['password1'].widget.attrs.update({'class':'form-control','spellcheck':'false','placeholder':'Password'})
+        self.fields['password1'].label = "Password"
+        self.fields['password2'].widget.attrs.update({'class':'form-control','spellcheck':'false','placeholder':'Confirm Password'})
+        self.fields['password2'].label = "Confirm Password"
+
+        self.fields['user_address'].widget.attrs.update({'class':'form-control','spellcheck':'false','placeholder':'Address','rows':'2'})
+        self.fields['user_address'].label = "Employee Address"
+
+    class Meta:
+        model = CustomUser
+        fields = ['username','first_name','last_name','email','user_address','password1','password2']
+
+
+
+
+
+
+
+
+

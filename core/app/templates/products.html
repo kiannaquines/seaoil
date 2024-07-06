@@ -8,7 +8,6 @@
 {% block content %}
 
 {% include './includes/messages.html' %}
-
 <div class="card">
     <div class="d-flex justify-content-between align-items-center">
         <h5 class="card-header">Product List</h5>
@@ -21,7 +20,7 @@
     </div>
     <div class="table-responsive text-nowrap">
         <table class="table" id="MydataTable">
-            <caption class="ms-4">List of lubricant products</caption>
+            <caption class="ms-3">List of lubricant products</caption>
             <thead>
                 <tr>
                     <th>Product Name</th>
@@ -69,6 +68,7 @@
         </table>
     </div>
 </div>
+{% include './forms/product_form.html' %}
 {% endblock content %}
 
 {% block pagejs %}

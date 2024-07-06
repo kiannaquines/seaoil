@@ -26,7 +26,7 @@
     </div>
     <div class="table-responsive text-nowrap">
         <table class="table" id="MydataTable">
-            <caption class="ms-4">Sales list</caption>
+            <caption class="ms-3">Sales list</caption>
             <thead>
                 <tr>
                     <th>Product Name</th>
@@ -70,6 +70,9 @@
         </table>
     </div>
 </div>
+
+{% include './forms/sale_form.html' %}
+
 {% endblock content %}
 
 {% block pagejs %}

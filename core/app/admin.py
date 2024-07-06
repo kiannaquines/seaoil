@@ -20,7 +20,7 @@ class CustomUserAdmin(OriginalAdmin):
 
 
 class AdminWarehouseProduct(admin.ModelAdmin):
-    list_display = ("warehouse_product_name","warehouse_product_stock","warehouse_product_description","warehouse_product_supplier","warehouse_product_date_added",)
+    list_display = ("warehouse_product_name","warehouse_product_stock","warehouse_product_status","warehouse_product_supplier","warehouse_product_date_added",)
 
 class AdminProduct(admin.ModelAdmin):
     list_display = ("product_warehouse_product","product_price","product_quantity","product_date_added",)
@@ -31,8 +31,6 @@ class AdminSupplier(admin.ModelAdmin):
 admin.site.register(CustomUser,CustomUserAdmin)
 admin.site.register(ProductModel,AdminProduct)
 admin.site.register(SupplierModel,AdminSupplier)
-admin.site.register(InventoryModel)
 admin.site.register(WarehouseProductModel,AdminWarehouseProduct)
 admin.site.register(SaleModel)
-admin.site.register(InvoiceModel)
 admin.site.register(CategoryModel)

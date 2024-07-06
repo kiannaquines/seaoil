@@ -18,13 +18,13 @@
     totalRevenueChartOptions = {
       series: [
         {
-          name: '2021',
-          data: [18, 7, 15, 29, 18, 12, 9]
+          name: '2019',
+          data: [713, 712, 500, 619, 619, 623, 615, 615, 615, 615, 615, 615,]
         },
         {
           name: '2020',
-          data: [-13, -18, -9, -14, -5, -17, -15]
-        }
+          data: [819, 883, 912, 839, 735, 773, 725, 725, 725, 725, 725, 725,]
+        },
       ],
       chart: {
         height: 300,
@@ -35,8 +35,8 @@
       plotOptions: {
         bar: {
           horizontal: false,
-          columnWidth: '33%',
-          borderRadius: 12,
+          columnWidth: '44%',
+          borderRadius: 0,
           startingShape: 'rounded',
           endingShape: 'rounded'
         }
@@ -54,7 +54,7 @@
       legend: {
         show: true,
         horizontalAlign: 'left',
-        position: 'top',
+        position: 'bottom',
         markers: {
           height: 8,
           width: 8,
@@ -78,7 +78,7 @@
         }
       },
       xaxis: {
-        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul','Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
         labels: {
           style: {
             fontSize: '13px',
