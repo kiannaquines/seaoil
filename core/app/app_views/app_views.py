@@ -197,3 +197,10 @@ def sales_index(request):
             return HttpResponseRedirect("/sales/")
         
     return render(request,"sales.html",context)
+
+
+class SaleUpdateView(UpdateView):
+    pass
+
+class SaleDeleteView(DeleteView):
+    pass
