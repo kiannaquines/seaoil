@@ -142,6 +142,12 @@ def products_index(request):
 
     return render(request,"products.html",context)
 
+class ProductUpdateView(UpdateView):
+    pass
+
+class ProductDeleteView(DeleteView):
+    pass
+
 @login_required(login_url="/auth/login/")
 def warehouseproducts_index(request):
     warehouseproducts = WarehouseProductModel.objects.all()
