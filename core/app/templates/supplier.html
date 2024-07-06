@@ -49,11 +49,11 @@
                                 <i class="bx bx-dots-vertical-rounded"></i>
                             </button>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" id="editsupplier" data-supplier="{{ supplier.supplier_id }}" href="javascript:void(0);">
+                                <a class="dropdown-item" id="supplieredit" href="{% url 'supplier_edit' pk=supplier.supplier_id %}">
                                     <i class="bx bx-edit-alt me-1"></i>
                                     Edit
                                 </a>
-                                <a class="dropdown-item" data-supplier="{{ supplier.supplier_id }}" href="javascript:void(0);">
+                                <a class="dropdown-item"  href="{% url 'supplier_delete' pk=supplier.supplier_id %}">
                                     <i class="bx bx-trash me-1"></i>
                                     Delete
                                 </a>
@@ -67,6 +67,7 @@
     </div>
 </div>
 {% include './forms/supplier_form.html' %}
+<div id="modalpopup"></div>
 {% endblock content %}
 
 {% block pagejs %}
@@ -74,18 +75,26 @@
 <script src="{% static 'assets/js/ui-tables.js' %}"></script>
 <script>
 $(document).ready(function(){
-    $(document).on("click","#editsupplier", function(e){
+    $(document).on("click","#supplieredit", function(e){
         var supplier_id = $(this).data("supplier")
         $.ajax({
             method: "GET",
-            url: "{% url 'supplier_edit' pk=1 %}",
+            url: "{% url 'supplier_edit' pk=0 %}".replace('0',supplier_id),
             success: function(data){
-                console.log(data)
+                $("#modalpopup").html(data.form_html)
+                $("#editModal").modal("show")
             },
             error: function(data){
                 console.log(data)
             },
         })
+    });
+
+    $(document).on("click","#submitSupplierUpdate", function(e){
+        alert("Hell")
+        e.preventDefault();
+        var formData = new FormData($("#editFormModal")[0])
+        console.log(formData)
     });
 });
 </script>

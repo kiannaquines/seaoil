@@ -16,5 +16,6 @@ urlpatterns = [
     path("warehouseproducts/",warehouseproducts_index,name="warehouseproducts_index"),
 
 
-    path("supplier_edit/<pk>",SupplierEditView.as_view(),name="supplier_edit")
+    path("supplier/edit/<pk>",SupplierUpdateView.as_view(),name="supplier_edit"),
+    path("supplier/confirmation/<pk>",SupplierDeleteView.as_view(),name="supplier_delete")
 ]

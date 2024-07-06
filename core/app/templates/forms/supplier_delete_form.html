@@ -1,0 +1,16 @@
+{% extends 'includes/base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="card">
+        <form method="POST" method="post">
+            {% csrf_token %}
+            <div class="card-body">
+                <h5>Remove Supplier Information?</h5>
+                <p>Are you sure you want to remove <span class="fw-bold">"{{ object }}"</span> record? This action cannot be undone after you delete this. </p>
+                <a href="{% url 'supplier_index' %}" class="btn btn-primary mr-2">Back</a>
+                <button type="submit" class="btn btn-danger">Yes, agree</button>
+            </div>
+        </form>
+    </div>
+{% endblock content %}

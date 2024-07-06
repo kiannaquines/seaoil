@@ -1,0 +1,25 @@
+{% extends 'includes/base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="card">
+        <h5 class="card-header">Update Supplier</h5>
+        <form method="POST" method="post">
+            {% csrf_token %}
+            <div class="card-body">
+                {% for input in form %}
+                    <div class="row">
+                        <div class="col mb-3">
+                        <label for="{{ input.id_for_label  }}" class="form-label">{{ input.label }}</label>
+                        {{ input }}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="card-footer">
+                <a href="{% url 'supplier_index' %}" class="btn btn-info mr-2">Back</a>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+    </div>
+{% endblock content %}

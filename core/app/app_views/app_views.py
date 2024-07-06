@@ -5,6 +5,8 @@ from app.forms import *
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.views.generic import CreateView, DeleteView, UpdateView
+from django.template.loader import render_to_string
+from django.http import JsonResponse
 
 # DONE
 @login_required(login_url="/auth/login/")
@@ -26,12 +28,28 @@ def supplier_index(request):
         
     return render(request,"supplier.html",context)
 
-class SupplierEditView(UpdateView):
-    pk_url_kwargs = "pk"
+class SupplierUpdateView(UpdateView):
+    form_class = SupplierForm
     model = SupplierModel
-    template_name = "forms/supplier_form.html"
+    pk_url_kwarg = "pk"
+    template_name = "forms/supplier_edit_form.html"
+    success_url = '/suppliers/'
 
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, 'You have successfully updated supplier information, thank you!',extra_tags="edit_success")
+        return response
+    
+class SupplierDeleteView(DeleteView):
+    model = SupplierModel
+    pk_url_kwarg = "pk"
+    template_name = "forms/supplier_delete_form.html"
+    success_url = '/suppliers/'
 
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, 'You have successfully removed supplier information, thank you!',extra_tags="delete_success")
+        return response
 
 @login_required(login_url="/auth/login/")
 def users_index(request):
