@@ -170,6 +170,12 @@ def warehouseproducts_index(request):
 
     return render(request,"warehouseproducts.html",context)
 
+class WarehouseProductUpdateView(UpdateView):
+    pass
+
+class WarehouseProductDeleteView(DeleteView):
+    pass
+
 @login_required(login_url="/auth/login/")
 def sales_index(request):
     sales = SaleModel.objects.all()
