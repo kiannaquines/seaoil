@@ -28,6 +28,7 @@ def supplier_index(request):
         
     return render(request,"supplier.html",context)
 
+# DONE
 class SupplierUpdateView(UpdateView):
     form_class = SupplierForm
     model = SupplierModel
@@ -39,7 +40,8 @@ class SupplierUpdateView(UpdateView):
         response = super().form_valid(form)
         messages.success(self.request, 'You have successfully updated supplier information, thank you!',extra_tags="edit_success")
         return response
-    
+
+# DONE    
 class SupplierDeleteView(DeleteView):
     model = SupplierModel
     pk_url_kwarg = "pk"
@@ -51,6 +53,7 @@ class SupplierDeleteView(DeleteView):
         messages.success(self.request, 'You have successfully removed supplier information, thank you!',extra_tags="delete_success")
         return response
 
+# DONE
 @login_required(login_url="/auth/login/")
 def users_index(request):
     users = CustomUser.objects.all()
@@ -74,6 +77,9 @@ def users_index(request):
             return HttpResponseRedirect("/users/")
         
     return render(request,"users.html",context)
+
+class UserUpdateView(UpdateView):
+    pass
 
 # DONE
 @login_required(login_url="/auth/login/")
