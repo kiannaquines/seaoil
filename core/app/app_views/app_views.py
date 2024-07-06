@@ -81,6 +81,10 @@ def users_index(request):
 class UserUpdateView(UpdateView):
     pass
 
+class DeleteUserView(DeleteView):
+    pass
+
+
 # DONE
 @login_required(login_url="/auth/login/")
 def category_index(request):
