@@ -104,6 +104,13 @@ def category_index(request):
 
     return render(request,"category.html",context)
 
+
+class CategoryEditView(UpdateView):
+    pass
+
+class CategoryDeleteView(DeleteView):
+    pass
+
 @login_required(login_url="/auth/login/")
 def inventory_index(request):
     inventories = WarehouseProductModel.objects.all()
