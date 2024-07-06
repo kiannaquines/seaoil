@@ -17,5 +17,8 @@ urlpatterns = [
 
 
     path("supplier/edit/<pk>",SupplierUpdateView.as_view(),name="supplier_edit"),
-    path("supplier/confirmation/<pk>",SupplierDeleteView.as_view(),name="supplier_delete")
+    path("supplier/confirmation/<pk>",SupplierDeleteView.as_view(),name="supplier_delete"),
+
+    path("user/edit/<pk>",UserUpdateView.as_view(),name="user_edit"),
+    path("user/confirmation/<pk>",DeleteUserView.as_view(),name="user_delete")
 ]

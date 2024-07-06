@@ -8,7 +8,7 @@
             <div class="card-body">
                 <h5>Remove Supplier Information?</h5>
                 <p>Are you sure you want to remove <span class="fw-bold">"{{ object }}"</span> record? This action cannot be undone after you delete this. </p>
-                <a href="{% url 'supplier_index' %}" class="btn btn-primary mr-2">Back</a>
+                <a onclick="window.history.back()" class="btn btn-primary mr-2">Back</a>
                 <button type="submit" class="btn btn-danger">Yes, agree</button>
             </div>
         </form>

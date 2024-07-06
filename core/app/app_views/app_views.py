@@ -4,9 +4,7 @@ from app.models import *
 from app.forms import *
 from django.http import HttpResponseRedirect
 from django.contrib import messages
-from django.views.generic import CreateView, DeleteView, UpdateView
-from django.template.loader import render_to_string
-from django.http import JsonResponse
+from django.views.generic import DeleteView, UpdateView
 
 # DONE
 @login_required(login_url="/auth/login/")
@@ -45,7 +43,7 @@ class SupplierUpdateView(UpdateView):
 class SupplierDeleteView(DeleteView):
     model = SupplierModel
     pk_url_kwarg = "pk"
-    template_name = "forms/supplier_delete_form.html"
+    template_name = "forms/delete_form.html"
     success_url = '/suppliers/'
 
     def form_valid(self, form):
@@ -79,10 +77,26 @@ def users_index(request):
     return render(request,"users.html",context)
 
 class UserUpdateView(UpdateView):
-    pass
+    model = CustomUser
+    pk_url_kwarg = "pk"
+    form_class = UserUpdateForm
+    template_name = "forms/user_edit_form.html"
+    success_url = "/users/"
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, 'You have successfully updated user information, thank you!',extra_tags="edit_success")
+        return response
 
 class DeleteUserView(DeleteView):
-    pass
+    model = CustomUser
+    success_url = '/users/'
+    template_name = "forms/delete_form.html"
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, 'You have successfully removed user information, thank you!',extra_tags="delete_success")
+        return response
 
 
 # DONE

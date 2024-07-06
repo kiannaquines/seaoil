@@ -115,6 +115,31 @@ class UserRegistrationForm(UserCreationForm):
         fields = ['username','first_name','last_name','email','user_address','password1','password2']
 
 
+class UserUpdateForm(ModelForm):
+    def __init__(self,*args,**kwargs):
+        super(UserUpdateForm,self).__init__(*args,**kwargs)
+        self.fields['username'].widget.attrs.update({'class':'form-control','spellcheck':'false','placeholder':'Username'})
+        self.fields['username'].label = "Username"
+        self.fields['first_name'].widget.attrs.update({'class':'form-control','spellcheck':'false','placeholder':'First Name'})
+        self.fields['first_name'].label = "First Name"
+        self.fields['last_name'].widget.attrs.update({'class':'form-control','spellcheck':'false','placeholder':'Last Name'})
+        self.fields['last_name'].label = "Last Name"
+        self.fields['email'].widget.attrs.update({'class':'form-control','spellcheck':'false','placeholder':'Email'})
+        self.fields['email'].label = "Email"
+        self.fields['user_address'].widget.attrs.update({'class':'form-control','spellcheck':'false','placeholder':'Address','rows':'2'})
+        self.fields['user_address'].label = "Employee Address"
+
+
+        self.fields['is_active'].widget.attrs.update({'class':'form-check-input'})
+        self.fields['is_staff'].widget.attrs.update({'class':'form-check-input'})
+        self.fields['is_superuser'].widget.attrs.update({'class':'form-check-input'})
+
+    class Meta:
+        model = CustomUser
+        fields = ['username','first_name','last_name','email','user_address','is_active','is_staff','is_superuser']
+        exclude = ['password1','password2',]
+
+
 
 
 
