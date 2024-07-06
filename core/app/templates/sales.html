@@ -32,6 +32,7 @@
                     <th>Product Name</th>
                     <th>Amount</th>
                     <th>Customer Name</th>
+                    <th>Encoded By</th>
                     <th>Date Added</th>
                     <th>Actions</th>
                 </tr>
@@ -46,6 +47,7 @@
                     </td>
                     <td>{{ sale.sale_amount }}</td>
                     <td>{{ sale.sale_customername }}</td>
+                    <td>{{ sale.encoded_by }}</td>
                     <td>{{ sale.sale_date }}</td>
                     <td>
                         <div class="dropdown">
@@ -53,11 +55,11 @@
                                 <i class="bx bx-dots-vertical-rounded"></i>
                             </button>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" data-sale="{{ sale.sale_id }}" href="javascript:void(0);">
+                                <a class="dropdown-item" href="{% url 'sale_edit' pk=sale.sale_id %}">
                                     <i class="bx bx-edit-alt me-1"></i>
                                     Edit
                                 </a>
-                                <a class="dropdown-item" data-sale="{{ sale.sale_id }}" href="javascript:void(0);">
+                                <a class="dropdown-item" href="{% url 'sale_delete' pk=sale.sale_id %}">
                                     <i class="bx bx-trash me-1"></i>
                                     Delete
                                 </a>

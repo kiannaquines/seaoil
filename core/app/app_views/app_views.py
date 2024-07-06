@@ -76,6 +76,7 @@ def users_index(request):
         
     return render(request,"users.html",context)
 
+# DONE
 class UserUpdateView(UpdateView):
     model = CustomUser
     pk_url_kwarg = "pk"
@@ -88,6 +89,7 @@ class UserUpdateView(UpdateView):
         messages.success(self.request, 'You have successfully updated user information, thank you!',extra_tags="edit_success")
         return response
 
+# DONE
 class DeleteUserView(DeleteView):
     model = CustomUser
     success_url = '/users/'
@@ -118,12 +120,30 @@ def category_index(request):
 
     return render(request,"category.html",context)
 
-
+# DONE
 class CategoryEditView(UpdateView):
-    pass
+    model = CategoryModel
+    pk_url_kwarg = "pk"
+    form_class = CategoryForm
+    success_url = "/category/"
+    template_name = "forms/category_edit_form.html"
 
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, 'You have successfully updated category information, thank you!',extra_tags="edit_success")
+        return response
+
+# DONE
 class CategoryDeleteView(DeleteView):
-    pass
+    model = CategoryModel
+    pk_url_kwarg = "pk"
+    success_url = "/category/"
+    template_name = "forms/delete_form.html"
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, 'You have successfully removed category information, thank you!',extra_tags="delete_success")
+        return response
 
 @login_required(login_url="/auth/login/")
 def inventory_index(request):
@@ -134,6 +154,7 @@ def inventory_index(request):
 
     return render(request,"inventory.html",context)
 
+# DONE
 @login_required(login_url="/auth/login/")
 def products_index(request):
     products = ProductModel.objects.all()
@@ -156,12 +177,32 @@ def products_index(request):
 
     return render(request,"products.html",context)
 
+# DONE
 class ProductUpdateView(UpdateView):
-    pass
+    model = ProductModel
+    form_class = ProductForm
+    pk_url_kwarg = "pk"
+    template_name = "forms/product_edit_form.html"
+    success_url = "/product/"
 
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, 'You have successfully updated product information, thank you!',extra_tags="edit_success")
+        return response
+
+# DONE
 class ProductDeleteView(DeleteView):
-    pass
+    model = ProductModel
+    pk_url_kwarg = "pk"
+    success_url = '/product/'
+    template_name = "forms/delete_form.html"
 
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, 'You have successfully removed product information, thank you!',extra_tags="delete_success")
+        return response
+
+# DONE
 @login_required(login_url="/auth/login/")
 def warehouseproducts_index(request):
     warehouseproducts = WarehouseProductModel.objects.all()
@@ -184,12 +225,32 @@ def warehouseproducts_index(request):
 
     return render(request,"warehouseproducts.html",context)
 
+# DONE
 class WarehouseProductUpdateView(UpdateView):
-    pass
+    model = WarehouseProductModel
+    form_class = WarehouseProductForm
+    pk_url_kwarg = "pk"
+    template_name = "forms/warehouseproduct_edit_form.html"
+    success_url = "/warehouseproducts/"
 
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, 'You have successfully updated warehouse product information, thank you!',extra_tags="edit_success")
+        return response
+
+# DONE
 class WarehouseProductDeleteView(DeleteView):
-    pass
+    model = WarehouseProductModel
+    pk_url_kwarg = "pk"
+    template_name = "forms/delete_form.html"
+    success_url = "/warehouseproducts/"
 
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, 'You have successfully removed warehouse product information, thank you!',extra_tags="delete_success")
+        return response
+
+# DONE
 @login_required(login_url="/auth/login/")
 def sales_index(request):
     sales = SaleModel.objects.all()
@@ -214,7 +275,23 @@ def sales_index(request):
 
 
 class SaleUpdateView(UpdateView):
-    pass
+    model = SaleModel
+    form_class = SalesForm
+    pk_url_kwarg = "pk"
+    template_name = "forms/sale_edit_form.html"
+    success_url = "/sales/"
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, 'You have successfully updated sale information, thank you!',extra_tags="edit_success")
+        return response
 
 class SaleDeleteView(DeleteView):
-    pass
+    model = SaleModel
+    pk_url_kwarg = "pk"
+    success_url = "/sales/"
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, 'You have successfully removed sale information, thank you!',extra_tags="delete_success")
+        return response

@@ -21,8 +21,7 @@ class CustomUser(AbstractUser):
     class Meta:
         verbose_name = "User"
         verbose_name_plural = "Users"
-# ADD - DONE
-#
+
 class WarehouseProductModel(models.Model):
     warehouse_product_id = models.AutoField(primary_key=True,unique=True)
     warehouse_product_name = models.CharField(max_length=255)

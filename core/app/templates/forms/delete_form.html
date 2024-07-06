@@ -6,9 +6,9 @@
         <form method="POST" method="post">
             {% csrf_token %}
             <div class="card-body">
-                <h5>Remove Supplier Information?</h5>
+                <h5>Remove Existing Record?</h5>
                 <p>Are you sure you want to remove <span class="fw-bold">"{{ object }}"</span> record? This action cannot be undone after you delete this. </p>
-                <a onclick="window.history.back()" class="btn btn-primary mr-2">Back</a>
+                <button type="button" onclick="window.history.back()" class="btn btn-primary mr-2">Back</button>
                 <button type="submit" class="btn btn-danger">Yes, agree</button>
             </div>
         </form>

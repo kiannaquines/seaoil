@@ -14,11 +14,16 @@ urlpatterns = [
     path("product/",products_index,name="products_index"),
     path("sales/",sales_index,name="sales_index"),
     path("warehouseproducts/",warehouseproducts_index,name="warehouseproducts_index"),
-
-
     path("supplier/edit/<pk>",SupplierUpdateView.as_view(),name="supplier_edit"),
     path("supplier/confirmation/<pk>",SupplierDeleteView.as_view(),name="supplier_delete"),
-
     path("user/edit/<pk>",UserUpdateView.as_view(),name="user_edit"),
-    path("user/confirmation/<pk>",DeleteUserView.as_view(),name="user_delete")
+    path("user/confirmation/<pk>",DeleteUserView.as_view(),name="user_delete"),
+    path("category/edit/<pk>",CategoryEditView.as_view(),name="category_edit"),
+    path("category/confirmation/<pk>",CategoryDeleteView.as_view(),name="category_delete"),
+    path("warehouseproduct/edit/<pk>",WarehouseProductUpdateView.as_view(),name="warehouseproduct_edit"),
+    path("warehouseproduct/confirmation/<pk>",WarehouseProductDeleteView.as_view(),name="warehouseproduct_delete"),
+    path("product/edit/<pk>",ProductUpdateView.as_view(),name="product_edit"),
+    path("product/confirmation/<pk>",ProductDeleteView.as_view(),name="product_delete"),
+    path("sale/edit/<pk>",SaleUpdateView.as_view(),name="sale_edit"),
+    path("sale/confirmation/<pk>",SaleDeleteView.as_view(),name="sale_delete"),
 ]
