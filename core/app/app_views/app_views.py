@@ -273,7 +273,7 @@ def sales_index(request):
         
     return render(request,"sales.html",context)
 
-
+# DONE
 class SaleUpdateView(UpdateView):
     model = SaleModel
     form_class = SalesForm
@@ -286,6 +286,7 @@ class SaleUpdateView(UpdateView):
         messages.success(self.request, 'You have successfully updated sale information, thank you!',extra_tags="edit_success")
         return response
 
+# DONE
 class SaleDeleteView(DeleteView):
     model = SaleModel
     pk_url_kwarg = "pk"

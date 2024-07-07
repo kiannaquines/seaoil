@@ -1,15 +1,27 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
-from app.models import CustomUser
+from app.models import CustomUser,SaleModel,ProductModel,WarehouseProductModel
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.contrib.auth.hashers import make_password
 from app.decorators import check_already_loggedin
+from django.db.models import Sum
 
 @login_required(login_url="auth/login/")
 def index(request):
-	return render(request,"index.html")
+	total_sale = SaleModel.objects.aggregate(sale=Sum('sale_amount'))
+	warehouse_product_count = WarehouseProductModel.objects.count()
+	product_count = ProductModel.objects.count()
+	latest_transactions = SaleModel.objects.all().order_by('-sale_date_added')[:5]
+
+	context = {
+		'total_sale':total_sale,
+		'product_count':product_count,
+		'warehouseproduct_count':warehouse_product_count,
+		'latest_transactions':latest_transactions,
+	}
+	return render(request,"index.html",context)
 
 @check_already_loggedin
 def auth_login(request):
