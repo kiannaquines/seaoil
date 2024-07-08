@@ -1,7 +1,3 @@
-/**
- * UI Modals
- */
-
 'use strict';
 
 (function () {

@@ -1,7 +1,3 @@
-/**
- * Account Settings - Account
- */
-
 'use strict';
 
 document.addEventListener('DOMContentLoaded', function (e) {

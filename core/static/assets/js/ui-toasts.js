@@ -1,7 +1,3 @@
-/**
- * UI Toasts
- */
-
 'use strict';
 
 (function () {
