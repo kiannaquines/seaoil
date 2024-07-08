@@ -8,7 +8,6 @@
 {% block content %}
 
 {% include './includes/messages.html' %}
-
 <div class="card">
     <div class="d-flex justify-content-between align-items-center">
         <h5 class="card-header">Warehouse Product List</h5>
@@ -41,7 +40,9 @@
                     </td>
                     <td>{{ warehouseproduct.warehouse_product_stock }}</td>
                     <td>{{ warehouseproduct.warehouse_product_supplier.supplier_companyname }}</td>
-                    <td><span class="badge bg-label-primary me-1">{{ warehouseproduct.warehouse_product_category }}</span></td>
+                    <td>
+                        <span class="badge bg-label-primary me-1">{{ warehouseproduct.warehouse_product_category }}</span>
+                    </td>
                     <td>
                         <div class="dropdown">
                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">

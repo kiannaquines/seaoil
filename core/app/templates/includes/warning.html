@@ -1,24 +1,28 @@
-<div style="position: fixed; bottom: 0; right: 0;" class="m-3">
-    <div class="bs-toast toast fade show bg-danger mb-3" role="alert" aria-live="assertive" aria-atomic="true">
+<div style="position: fixed; bottom: 0; right: 0;" class="m-3 stockNotifierContainer">
+    {% for stock_check in warehouse_product_stock_check %}
+    <div
+        class="bs-toast toast fade show bg-warning mb-3"
+        role="alert"
+        aria-live="assertive"
+        aria-atomic="true"
+    >
         <div class="toast-header">
-          <i class='bx bx-bell me-2'></i>
-          <div class="me-auto fw-medium">Stock Notifier</div>
-          <small>now</small>
-          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            <i class="bx bx-bell me-2"></i>
+            <div class="me-auto fw-medium">Stock Warning</div>
+            <small>now</small>
+            <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="toast"
+                aria-label="Close"
+            ></button>
         </div>
         <div class="toast-body">
-          The "Gasoline Engine Oil SAE40" is in low stock, please re-stock the item.
+            The item
+            <b>{{ stock_check.warehouse_product_name }}</b> has
+            <b>{{ stock_check.warehouse_product_stock }}</b>
+            stock/s left in the inventory, please replenish your item.
         </div>
     </div>
-    <div class="bs-toast toast fade show bg-danger" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="toast-header">
-          <i class='bx bx-bell me-2'></i>
-          <div class="me-auto fw-medium">Stock Notifier</div>
-          <small>now</small>
-          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
-        <div class="toast-body">
-          The "Gasoline Engine Oil SAE40" is in low stock, it is time to replenish the item.
-        </div>
-    </div>
+    {% endfor %}
 </div>

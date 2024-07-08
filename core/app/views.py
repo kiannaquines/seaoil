@@ -10,6 +10,7 @@ from django.db.models import Sum,Count
 from django.db.models.functions import TruncMonth,ExtractYear, ExtractMonth
 from django.utils import timezone
 from datetime import datetime
+from core.settings import MINIMUM
 
 @login_required(login_url="auth/login/")
 def get_monthly_product_in(request):
@@ -55,6 +56,9 @@ def index(request):
 	latest_transactions = SaleModel.objects.all().order_by('-sale_date_added')[:7]
 	last_weeks_data = WarehouseProductModel.objects.filter(warehouse_product_date_added__range=[last_week, today_date]).count()
 
+	warehouse_product_stock_check = WarehouseProductModel.objects.filter(warehouse_product_stock__lt=MINIMUM).all()
+
+
 	context = {
 		'total_sale':total_sale,
 		'total_products_count':warehouse_product_count,
@@ -62,6 +66,7 @@ def index(request):
 		'warehouseproduct_count':warehouse_product_count,
 		'latest_transactions':latest_transactions,
 		'last_weeks_data_count':last_weeks_data,
+		'warehouse_product_stock_check': warehouse_product_stock_check,
 	}
 
 	return render(request,"index.html",context)

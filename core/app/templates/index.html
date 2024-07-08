@@ -3,142 +3,142 @@
 
 
 {% block pagecss %}
-<link rel="stylesheet" href="{% static 'assets/vendor/libs/apex-charts/apex-charts.css' %}" />
+<link rel="stylesheet" href="{% static 'assets/vendor/libs/apex-charts/apex-charts.css' %}">
 {% endblock pagecss %}
 
 {% block content %}
 <div class="row">
-   
     <!-- Total Revenue -->
     <div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
-      <div class="card">
-        <div class="row row-bordered g-0">
-          <div class="col-md-12">
-            <h5 class="card-header m-0 me-2 pb-3">Yearly Seaoil President Roxas Branch Revenue</h5>
-            <div id="totalRevenueChart" class="px-2"></div>
-          </div>
+        <div class="card">
+            <div class="row row-bordered g-0">
+                <div class="col-md-12">
+                    <h5 class="card-header m-0 me-2 pb-3">Yearly Seaoil President Roxas Branch Revenue</h5>
+                    <div id="totalRevenueChart" class="px-2"></div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
     <!--/ Total Revenue -->
-  </div>
-  <div class="row">
+</div>
+<div class="row">
     <!-- Expense Overview -->
     <div class="col-md-6 col-lg-8 order-1 mb-4">
-      <div class="card h-100">
-        <div class="card-header">
-          <ul class="nav nav-pills" role="tablist">
-            <li class="nav-item">
-              <button
-                type="button"
-                class="nav-link active"
-                role="tab"
-                data-bs-toggle="tab"
-                data-bs-target="#navs-tabs-line-card-income"
-                aria-controls="navs-tabs-line-card-income"
-                aria-selected="true">
-                Products In
-              </button>
-            </li>
-          </ul>
-        </div>
-        <div class="card-body px-0">
-          <div class="tab-content p-0">
-            <div class="tab-pane fade show active" id="navs-tabs-line-card-income" role="tabpanel">
-              <div class="d-flex p-4 pt-3">
-                <div class="avatar flex-shrink-0 me-3 bg-primary-transparent">
-                  <img src="{% static 'assets/img/icons/unicons/box.svg' %}" alt="User" />
-                </div>
-                <div>
-                  <small class="text-muted d-block">Total Product</small>
-                  <div class="d-flex align-items-center">
-                    <h6 class="mb-0 me-1">+{{ warehouseproduct_count }}</h6>
-                    <small class="text-success fw-medium">
-                      <i class="bx bx-chevron-up"></i>
-                      42.9%
-                    </small>
-                  </div>
-                </div>
-                <div class="avatar flex-shrink-0 me-3 bg-primary-transparent">
-                  <img src="{% static 'assets/img/icons/unicons/box.svg' %}" alt="User" />
-                </div>
-                <div>
-                  <small class="text-muted d-block">Todays Product In</small>
-                  <div class="d-flex align-items-center">
-                    <h6 class="mb-0 me-1">+{{ todays_product_count }}</h6>
-                    <small class="text-success fw-medium">
-                      <i class="bx bx-chevron-up"></i>
-                      42.9%
-                    </small>
-                  </div>
-                </div>
-                <div class="avatar flex-shrink-0 me-3 bg-primary-transparent">
-                  <img src="{% static 'assets/img/icons/unicons/box.svg' %}" alt="User" />
-                </div>
-                <div>
-                  <small class="text-muted d-block">Last Week Product In</small>
-                  <div class="d-flex align-items-center">
-                    <h6 class="mb-0 me-1">+{{ last_weeks_data_count }}</h6>
-                    <small class="text-success fw-medium">
-                      <i class="bx bx-chevron-up"></i>
-                      42.9%
-                    </small>
-                  </div>
-                </div>
-              </div>
-              <div id="productMonthlyIn"></div>
+        <div class="card h-100">
+            <div class="card-header">
+                <ul class="nav nav-pills" role="tablist">
+                    <li class="nav-item">
+                        <button
+                            type="button"
+                            class="nav-link active"
+                            role="tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#navs-tabs-line-card-income"
+                            aria-controls="navs-tabs-line-card-income"
+                            aria-selected="true"
+                        >
+                            Products In
+                        </button>
+                    </li>
+                </ul>
             </div>
-          </div>
+            <div class="card-body px-0">
+                <div class="tab-content p-0">
+                    <div class="tab-pane fade show active" id="navs-tabs-line-card-income" role="tabpanel">
+                        <div class="d-flex p-4 pt-3">
+                            <div class="avatar flex-shrink-0 me-3 bg-primary-transparent">
+                                <img src="{% static 'assets/img/icons/unicons/box.svg' %}" alt="User">
+                            </div>
+                            <div>
+                                <small class="text-muted d-block">Total Product</small>
+                                <div class="d-flex align-items-center">
+                                    <h6 class="mb-0 me-1">+{{ warehouseproduct_count }}</h6>
+                                    <small class="text-success fw-medium">
+                                        <i class="bx bx-chevron-up"></i>
+                                        42.9%
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="avatar flex-shrink-0 me-3 bg-primary-transparent">
+                                <img src="{% static 'assets/img/icons/unicons/box.svg' %}" alt="User">
+                            </div>
+                            <div>
+                                <small class="text-muted d-block">Todays Product In</small>
+                                <div class="d-flex align-items-center">
+                                    <h6 class="mb-0 me-1">+{{ todays_product_count }}</h6>
+                                    <small class="text-success fw-medium">
+                                        <i class="bx bx-chevron-up"></i>
+                                        42.9%
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="avatar flex-shrink-0 me-3 bg-primary-transparent">
+                                <img src="{% static 'assets/img/icons/unicons/box.svg' %}" alt="User">
+                            </div>
+                            <div>
+                                <small class="text-muted d-block">Last Week Product In</small>
+                                <div class="d-flex align-items-center">
+                                    <h6 class="mb-0 me-1">+{{ last_weeks_data_count }}</h6>
+                                    <small class="text-success fw-medium">
+                                        <i class="bx bx-chevron-up"></i>
+                                        42.9%
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="productMonthlyIn"></div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
     <!--/ Expense Overview -->
-
     <!-- Transactions -->
     <div class="col-md-6 col-lg-4 order-2 mb-4">
-      <div class="card h-100">
-        <div class="card-header d-flex align-items-center justify-content-between">
-          <h5 class="card-title m-0 me-2">Seaoil Latest Transactions</h5>
-          <div class="dropdown">
-            <button
-                class="btn p-0"
-                type="button"
-                id="cardOpt6"
-                data-bs-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false">
-                <i class="bx bx-dots-vertical-rounded"></i>
-              </button>
-              <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt6">
-                <a class="dropdown-item" href="{% url 'sales_index' %}">View More</a>
-              </div>
-          </div>
-        </div>
-        <div class="card-body">
-          <ul class="p-0 m-0">
-            {% for transaction in latest_transactions %}
-            <li class="d-flex mb-4 pb-1">
-              <div class="avatar flex-shrink-0 me-3">
-                <img src="{% static 'assets/img/icons/unicons/wallet.png' %}" alt="User" class="rounded" />
-              </div>
-              <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                <div class="me-2">
-                  <small class="text-muted d-block mb-1">Paid with cash</small>
-                  <h6 class="mb-0">{{ transaction.sale_customername }}</h6>
+        <div class="card h-100">
+            <div class="card-header d-flex align-items-center justify-content-between">
+                <h5 class="card-title m-0 me-2">Seaoil Latest Transactions</h5>
+                <div class="dropdown">
+                    <button
+                        class="btn p-0"
+                        type="button"
+                        id="cardOpt6"
+                        data-bs-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                    >
+                        <i class="bx bx-dots-vertical-rounded"></i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt6">
+                        <a class="dropdown-item" href="{% url 'sales_index' %}">View More</a>
+                    </div>
                 </div>
-                <div class="user-progress d-flex align-items-center gap-1">
-                  <h6 class="mb-0">+{{ transaction.sale_amount }}</h6>
-                  <span class="text-muted">PHP</span>
-                </div>
-              </div>
-            </li>
-            {% endfor %}
-          </ul>
+            </div>
+            <div class="card-body">
+                <ul class="p-0 m-0">
+                    {% for transaction in latest_transactions %}
+                    <li class="d-flex mb-4 pb-1">
+                        <div class="avatar flex-shrink-0 me-3">
+                            <img src="{% static 'assets/img/icons/unicons/wallet.png' %}" alt="User" class="rounded">
+                        </div>
+                        <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                            <div class="me-2">
+                                <small class="text-muted d-block mb-1">Paid with cash</small>
+                                <h6 class="mb-0">{{ transaction.sale_customername }}</h6>
+                            </div>
+                            <div class="user-progress d-flex align-items-center gap-1">
+                                <h6 class="mb-0">+{{ transaction.sale_amount }}</h6>
+                                <span class="text-muted">PHP</span>
+                            </div>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
-      </div>
     </div>
     <!--/ Transactions -->
-  </div>
+</div>
 {% include './includes/warning.html' %}
 {% endblock %}
 
