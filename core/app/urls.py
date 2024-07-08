@@ -32,4 +32,5 @@ urlpatterns = [
 
 
     path('fetchTotalProductIn/',get_monthly_product_in,name="fetch_product_in"),
+    path('fetchTotalSalesMonthly/',get_monthly_yearly_sales,name="fetch_total_sales"),
 ]

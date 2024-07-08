@@ -37,9 +37,14 @@ class AdminProduct(admin.ModelAdmin):
 class AdminSupplier(admin.ModelAdmin):
     list_display = ("supplier_companyname","supplier_mobilenumber","supplier_date_added",)
 
+
+class SalesAdmin(admin.ModelAdmin):
+    list_display = ("sale_product","sale_amount","sale_quantity","sale_customername","encoded_by","sale_date")
+    fields = ("sale_product","sale_amount","sale_quantity","sale_customername","encoded_by","sale_date","sale_date_added")
+
 admin.site.register(CustomUser,CustomUserAdmin)
 admin.site.register(ProductModel,AdminProduct)
 admin.site.register(SupplierModel,AdminSupplier)
 admin.site.register(WarehouseProductModel,AdminWarehouseProduct)
-admin.site.register(SaleModel)
+admin.site.register(SaleModel,SalesAdmin)
 admin.site.register(CategoryModel)

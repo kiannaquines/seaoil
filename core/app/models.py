@@ -76,9 +76,9 @@ class SaleModel(models.Model):
     sale_amount = models.FloatField()
     sale_quantity = models.IntegerField()
     sale_customername = models.CharField(max_length=255)
-    sale_date = models.DateTimeField(auto_now_add=True)
+    sale_date = models.DateTimeField(default=datetime.now, blank=True)
     encoded_by = models.ForeignKey('CustomUser',on_delete=models.DO_NOTHING)
-    sale_date_added = models.DateTimeField(auto_now_add=True)
+    sale_date_added = models.DateTimeField(default=datetime.now, blank=True)
 
 
     def __str__(self) -> str:

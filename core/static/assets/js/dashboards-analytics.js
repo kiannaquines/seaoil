@@ -12,24 +12,24 @@
   axisColor = config.colors.axisColor;
   borderColor = config.colors.borderColor;
 
-  // Total Revenue Report Chart - Bar Chart
-  // --------------------------------------------------------------------
-  const totalRevenueChartEl = document.querySelector('#totalRevenueChart'),
-    totalRevenueChartOptions = {
-      series: [
-        {
-          name: '2018',
-          data: [800, 900, 1000, 1234, 3245, 4342, 4324, 2123, 4341, 5235, 2345, 4342,]
-        },
-        {
-          name: '2019',
-          data: [713, 712, 500, 619, 619, 623, 615, 615, 615, 615, 615, 615,]
-        },
-        {
-          name: '2020',
-          data: [819, 883, 912, 839, 735, 773, 725, 725, 725, 725, 725, 725,]
-        },
-      ],
+  const totalRevenueChartEl = document.querySelector('#totalRevenueChart');
+
+  fetch("fetchTotalSalesMonthly/")
+  .then(response => response.json())
+  .then(jsonData => {
+    const years = Object.keys(jsonData);
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+    const series = years.map(year => ({
+      name: year,
+      data: months.map(month => {
+        const entry = jsonData[year].find(item => item.month === month);
+        return entry ? entry.total : 0;
+      })
+    }));
+
+    const totalRevenueChartOptions = {
+      series: series,
       chart: {
         height: 300,
         stacked: true,
@@ -83,7 +83,7 @@
         }
       },
       xaxis: {
-        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul','Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        categories: months,
         labels: {
           style: {
             fontSize: '13px',
@@ -274,10 +274,10 @@
         }
       }
     };
-  if (typeof totalRevenueChartEl !== undefined && totalRevenueChartEl !== null) {
+
     const totalRevenueChart = new ApexCharts(totalRevenueChartEl, totalRevenueChartOptions);
     totalRevenueChart.render();
-  }
+  }).catch(error => console.error('Error:', error));
 
   const incomeChartEl = document.querySelector('#productMonthlyIn');
   fetch('fetchTotalProductIn/')

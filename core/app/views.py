@@ -3,11 +3,11 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from app.models import CustomUser,SaleModel,ProductModel,WarehouseProductModel
 from django.contrib import messages
-from django.http import HttpResponseRedirect,JsonResponse
+from django.http import HttpResponseRedirect,JsonResponse,HttpResponse
 from django.contrib.auth.hashers import make_password
 from app.decorators import check_already_loggedin
 from django.db.models import Sum,Count
-from django.db.models.functions import TruncMonth
+from django.db.models.functions import TruncMonth,ExtractYear, ExtractMonth
 from django.utils import timezone
 from datetime import datetime
 
@@ -21,6 +21,31 @@ def get_monthly_product_in(request):
         for total in monthly_totals
     ]
     return JsonResponse(totals_list, safe=False)
+
+def get_monthly_yearly_sales(request):
+
+	data = SaleModel.objects.annotate(
+        year=ExtractYear('sale_date'),
+        month=ExtractMonth('sale_date')
+    ).values('year', 'month').annotate(
+        total=Sum('sale_amount')
+    ).order_by('year', 'month')
+
+	result = {}
+	for entry in data:
+		year = str(entry['year'])
+		month = entry['month']
+		month_name = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun','Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][month - 1]
+
+		if year not in result:
+			result[year] = []
+
+		result[year].append({
+			"month": month_name,
+			"total": round(entry['total'], 2)
+		})
+
+	return JsonResponse(result)
 
 @login_required(login_url="auth/login/")
 def index(request):
