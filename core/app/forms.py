@@ -28,23 +28,16 @@ class CategoryForm(ModelForm):
 class WarehouseProductForm(ModelForm):
     def __init__(self,*args,**kwargs):
         super(WarehouseProductForm,self).__init__(*args,**kwargs)
-        
         self.fields['warehouse_product_name'].widget.attrs.update({'class':'form-control','spellcheck':'false','placeholder':'Warehouse Product Name'})
         self.fields['warehouse_product_name'].label = "Warehouse Product Name"
-
         self.fields['warehouse_product_stock'].widget.attrs.update({'class':'form-control','spellcheck':'false','placeholder':'Stock'})
         self.fields['warehouse_product_stock'].label = "Stock"
-
         self.fields['warehouse_product_description'].widget.attrs.update({'class':'form-control','spellcheck':'false','placeholder':'Description','rows':'2'})
         self.fields['warehouse_product_description'].label = "Description"
-
         self.fields['warehouse_product_category'].widget.attrs.update({'class':'form-control','spellcheck':'false'})
         self.fields['warehouse_product_category'].label = "Category"
-
-
         self.fields['warehouse_product_supplier'].widget.attrs.update({'class':'form-control','spellcheck':'false'})
         self.fields['warehouse_product_supplier'].label = "Supplier"
-
         self.fields['warehouse_product_picture'].widget.attrs.update({'class':'form-control','spellcheck':'false'})
         self.fields['warehouse_product_picture'].label = "Product Image"
 
@@ -57,10 +50,8 @@ class ProductForm(ModelForm):
         super(ProductForm,self).__init__(*args,**kwargs)
         self.fields['product_warehouse_product'].widget.attrs.update({'class':'form-control','spellcheck':'false'})
         self.fields['product_warehouse_product'].label = "Warehouse Product"
-
         self.fields['product_price'].widget.attrs.update({'class':'form-control','spellcheck':'false','placeholder':'Price'})
         self.fields['product_price'].label = "Price"
-
         self.fields['product_quantity'].widget.attrs.update({'class':'form-control','spellcheck':'false','placeholder':'Quantity'})
         self.fields['product_quantity'].label = "Quantity"
     
@@ -73,16 +64,12 @@ class SalesForm(ModelForm):
         super(SalesForm,self).__init__(*args,**kwargs)
         self.fields['sale_product'].widget.attrs.update({'class':'form-control','spellcheck':'false'})
         self.fields['sale_product'].label = "Product"
-
         self.fields['sale_quantity'].widget.attrs.update({'class':'form-control','spellcheck':'false','placeholder':'Quantity'})
         self.fields['sale_quantity'].label = "Quantity"
-
         self.fields['sale_customername'].widget.attrs.update({'class':'form-control','spellcheck':'false','placeholder':'Customer Name'})
         self.fields['sale_customername'].label = "Customer Name"
-
         self.fields['sale_amount'].widget.attrs.update({'class':'form-control','spellcheck':'false','placeholder':'Amount'})
         self.fields['sale_amount'].label = "Amount"
-
         self.fields['encoded_by'].widget.attrs.update({'class':'form-control','spellcheck':'false'})
         self.fields['encoded_by'].label = "Encoded By"
     
@@ -101,12 +88,10 @@ class UserRegistrationForm(UserCreationForm):
         self.fields['last_name'].label = "Last Name"
         self.fields['email'].widget.attrs.update({'class':'form-control','spellcheck':'false','placeholder':'Email'})
         self.fields['email'].label = "Email"
-
         self.fields['password1'].widget.attrs.update({'class':'form-control','spellcheck':'false','placeholder':'Password'})
         self.fields['password1'].label = "Password"
         self.fields['password2'].widget.attrs.update({'class':'form-control','spellcheck':'false','placeholder':'Confirm Password'})
         self.fields['password2'].label = "Confirm Password"
-
         self.fields['user_address'].widget.attrs.update({'class':'form-control','spellcheck':'false','placeholder':'Address','rows':'2'})
         self.fields['user_address'].label = "Employee Address"
 
@@ -128,8 +113,6 @@ class UserUpdateForm(ModelForm):
         self.fields['email'].label = "Email"
         self.fields['user_address'].widget.attrs.update({'class':'form-control','spellcheck':'false','placeholder':'Address','rows':'2'})
         self.fields['user_address'].label = "Employee Address"
-
-
         self.fields['is_active'].widget.attrs.update({'class':'form-check-input'})
         self.fields['is_staff'].widget.attrs.update({'class':'form-check-input'})
         self.fields['is_superuser'].widget.attrs.update({'class':'form-check-input'})

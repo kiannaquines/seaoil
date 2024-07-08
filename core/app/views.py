@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
-from app.models import CustomUser,SaleModel,ProductModel,WarehouseProductModel
+from app.models import CustomUser,SaleModel,WarehouseProductModel
 from django.contrib import messages
-from django.http import HttpResponseRedirect,JsonResponse,HttpResponse
+from django.http import HttpResponseRedirect,JsonResponse
 from django.contrib.auth.hashers import make_password
 from app.decorators import check_already_loggedin
 from django.db.models import Sum,Count
@@ -11,9 +11,7 @@ from django.db.models.functions import TruncMonth,ExtractYear, ExtractMonth
 from django.utils import timezone
 from datetime import datetime
 
-
-
-# @login_required(login_url="auth/login/")
+@login_required(login_url="auth/login/")
 def get_monthly_product_in(request):
     monthly_totals = WarehouseProductModel.objects.annotate(month=TruncMonth('warehouse_product_date_added')).values('month').annotate(total=Count('warehouse_product_id')).order_by('month')
     totals_list = [
@@ -22,8 +20,8 @@ def get_monthly_product_in(request):
     ]
     return JsonResponse(totals_list, safe=False)
 
+@login_required(login_url="auth/login/")
 def get_monthly_yearly_sales(request):
-
 	data = SaleModel.objects.annotate(
         year=ExtractYear('sale_date'),
         month=ExtractMonth('sale_date')
@@ -51,20 +49,10 @@ def get_monthly_yearly_sales(request):
 def index(request):
 	today_date = timezone.now().date()
 	last_week = today_date - timezone.timedelta(days=7)
-
-	# Total sales amount
 	total_sale = SaleModel.objects.aggregate(sale=Sum('sale_amount'))
-
-	# Total warehouse product count
 	warehouse_product_count = WarehouseProductModel.objects.all().count()
-
-	# Today's product count
 	product_count_today = WarehouseProductModel.objects.filter(warehouse_product_date_added__date=today_date).all().count()
-	
-	# Latest transactions data
 	latest_transactions = SaleModel.objects.all().order_by('-sale_date_added')[:7]
-	
-	# Last week's data
 	last_weeks_data = WarehouseProductModel.objects.filter(warehouse_product_date_added__range=[last_week, today_date]).count()
 
 	context = {
