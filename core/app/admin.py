@@ -21,9 +21,18 @@ class CustomUserAdmin(OriginalAdmin):
 
 class AdminWarehouseProduct(admin.ModelAdmin):
     list_display = ("warehouse_product_name","warehouse_product_stock","warehouse_product_status","warehouse_product_supplier","warehouse_product_date_added",)
+    list_editable = ["warehouse_product_stock","warehouse_product_status",]
+    fields = ("warehouse_product_name","warehouse_product_stock","warehouse_product_description","warehouse_product_picture","warehouse_product_supplier","warehouse_product_category","warehouse_product_status","warehouse_product_date_added")
 
 class AdminProduct(admin.ModelAdmin):
     list_display = ("product_warehouse_product","product_price","product_quantity","product_date_added",)
+    list_filter = ("product_warehouse_product","product_date_added",)
+    ordering = ["-product_date_added"]
+    list_per_page = 10
+    list_display_links = ("product_warehouse_product",)
+    date_hierarchy = "product_date_added"
+    list_editable = ["product_price","product_quantity"]
+
 
 class AdminSupplier(admin.ModelAdmin):
     list_display = ("supplier_companyname","supplier_mobilenumber","supplier_date_added",)

@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from datetime import datetime
 
 class CategoryModel(models.Model):
     categogry_id = models.AutoField(primary_key=True,unique=True)
@@ -31,7 +32,7 @@ class WarehouseProductModel(models.Model):
     warehouse_product_supplier = models.ForeignKey('SupplierModel',on_delete=models.CASCADE)
     warehouse_product_category = models.ForeignKey('CategoryModel',on_delete=models.DO_NOTHING,null=True,blank=True)
     warehouse_product_status = models.TextField(choices=(('Active','Active'),('Inactive','Inactive')),default=('Active','Active'))
-    warehouse_product_date_added = models.DateTimeField(auto_now_add=True)
+    warehouse_product_date_added = models.DateTimeField(default=datetime.now, blank=True)
 
     def __str__(self) -> str:
         return self.warehouse_product_name
@@ -39,6 +40,7 @@ class WarehouseProductModel(models.Model):
     class Meta:
         verbose_name = "Warehouse Product"
         verbose_name_plural = "Warehouse Products"
+        ordering = ['-warehouse_product_date_added']
 
 class ProductModel(models.Model):
     product_id = models.AutoField(primary_key=True,unique=True)

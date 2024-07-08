@@ -29,4 +29,7 @@ urlpatterns = [
 
 
     path('user/profile/<int:pk>',user_profile,name="user_profile"),
+
+
+    path('fetchTotalProductIn/',get_monthly_product_in,name="fetch_product_in"),
 ]

@@ -3,24 +3,54 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from app.models import CustomUser,SaleModel,ProductModel,WarehouseProductModel
 from django.contrib import messages
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect,JsonResponse
 from django.contrib.auth.hashers import make_password
 from app.decorators import check_already_loggedin
-from django.db.models import Sum
+from django.db.models import Sum,Count
+from django.db.models.functions import TruncMonth
+from django.utils import timezone
+from datetime import datetime
+
+
+
+# @login_required(login_url="auth/login/")
+def get_monthly_product_in(request):
+    monthly_totals = WarehouseProductModel.objects.annotate(month=TruncMonth('warehouse_product_date_added')).values('month').annotate(total=Count('warehouse_product_id')).order_by('month')
+    totals_list = [
+        {'month': datetime.strftime(total['month'], '%b'), 'total': total['total']}
+        for total in monthly_totals
+    ]
+    return JsonResponse(totals_list, safe=False)
 
 @login_required(login_url="auth/login/")
 def index(request):
+	today_date = timezone.now().date()
+	last_week = today_date - timezone.timedelta(days=7)
+
+	# Total sales amount
 	total_sale = SaleModel.objects.aggregate(sale=Sum('sale_amount'))
-	warehouse_product_count = WarehouseProductModel.objects.count()
-	product_count = ProductModel.objects.count()
-	latest_transactions = SaleModel.objects.all().order_by('-sale_date_added')[:5]
+
+	# Total warehouse product count
+	warehouse_product_count = WarehouseProductModel.objects.all().count()
+
+	# Today's product count
+	product_count_today = WarehouseProductModel.objects.filter(warehouse_product_date_added__date=today_date).all().count()
+	
+	# Latest transactions data
+	latest_transactions = SaleModel.objects.all().order_by('-sale_date_added')[:7]
+	
+	# Last week's data
+	last_weeks_data = WarehouseProductModel.objects.filter(warehouse_product_date_added__range=[last_week, today_date]).count()
 
 	context = {
 		'total_sale':total_sale,
-		'product_count':product_count,
+		'total_products_count':warehouse_product_count,
+		'todays_product_count':product_count_today,
 		'warehouseproduct_count':warehouse_product_count,
 		'latest_transactions':latest_transactions,
+		'last_weeks_data_count':last_weeks_data,
 	}
+
 	return render(request,"index.html",context)
 
 @check_already_loggedin
