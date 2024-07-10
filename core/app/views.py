@@ -115,11 +115,11 @@ def auth_register(request):
 
 
 		if CustomUser.objects.filter(username=username).exists():
-			messages.error(request,"Sorry, username already exist, please try again.")
+			messages.error(request,"Sorry, username already exist, please try again.",extra_tags="register_invalid")
 			return render(request,"auth/register.html")
 		
 		CustomUser.objects.create(username=username,first_name=first_name,last_name=last_name,password=password,is_active=False)
-		messages.success(request,"You have successfully registered, please wait to activate your account.")
+		messages.success(request,"You have successfully registered, please wait to activate your account.",extra_tags="register_success")
 		return HttpResponseRedirect("/auth/login")
 
 	return render(request,"auth/register.html")
