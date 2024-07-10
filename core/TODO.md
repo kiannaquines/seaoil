@@ -6,3 +6,4 @@
 4. Print Receipt - IN PROGRESS
 5. Cashier, Manager, Attendant - IN PROCESS
 6. Deduct Stock after pull out in warehouse - IN PROGRESS
+7. Sales Invoice - IN PROGRESS
