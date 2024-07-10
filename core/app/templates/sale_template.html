@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inventory Report</title>
+    <title>Sale Report</title>
     <style>
         * {
             font-family: 'Public Sans', sans-serif;
@@ -51,7 +51,7 @@
         }
 
         .main_header {
-            font-size: 18px;
+            font-size: 20px;
             display: block;
             margin: 0;
             padding: 0;
@@ -70,27 +70,25 @@
 <body>
     <div id="header_frame">
         <img src="{{ logo_path }}" alt="Seaoil Logo" style="height: 50px; vertical-align: middle; margin-right: 10px;">
-        <span class="main_header">President Roxas Seaoil Branch Warehouse Inventory Report</span>
+        <span class="main_header">President Roxas Seaoil Branch Sales Report</span>
         <span class="generated_at">Generate at {{ date_generated }}</span>
     </div>
     <div id="content_frame">
         <table>
             <tr>
                 <th>Product</th>
-                <th>Supplier</th>
-                <th>Stock</th>
-                <th>Category</th>
-                <th>Status</th>
-                <th>Date Stocked</th>
+                <th>Customer</th>
+                <th>Amount</th>
+                <th>Quantity</th>
+                <th>Date Purchased</th>
             </tr>
-            {% for product in warehouse_product %}
+            {% for sale in sales %}
             <tr>
-                <td>{{ product.warehouse_product_name }}</td>
-                <td>{{ product.warehouse_product_supplier.supplier_companyname }}</td>
-                <td>{{ product.warehouse_product_stock }} in stock</td>
-                <td>{{ product.warehouse_product_category.category_name }}</td>
-                <td>{{ product.warehouse_product_status }}</td>
-                <td>{{ product.warehouse_product_date_added }}</td>
+                <td>{{ sale.sale_product.product_warehouse_product.warehouse_product_name }}</td>
+                <td>{{ sale.sale_customername }}</td>
+                <td>{{ sale.sale_amount }}</td>
+                <td>{{ sale.sale_quantity }}</td>
+                <td>{{ sale.sale_date_added }}</td>
             </tr>
             {% endfor %}
         </table>
