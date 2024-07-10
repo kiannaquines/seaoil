@@ -14,8 +14,15 @@ class CategoryModel(models.Model):
         return self.category_name
 
 class CustomUser(AbstractUser):
-    user_address = models.TextField(max_length=255)
 
+    USER_TYPE = (
+        ('Cashier','Cashier'),
+        ('Attendant','Attendant'),
+        ('Manager','Manager'),
+    )
+
+    user_address = models.TextField(max_length=255)
+    user_type = models.TextField(choices=USER_TYPE,default=USER_TYPE[0][0])
     def __str__(self) -> str:
         return '{} {}'.format(self.first_name, self.last_name)
      
