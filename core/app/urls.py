@@ -1,6 +1,7 @@
 from django.urls import path
 from app.views import *
 from app.app_views.app_views import *
+from app.app_views.generate_report_views import *
 
 urlpatterns = [
 	path("",index,name="main_page"),
@@ -29,4 +30,6 @@ urlpatterns = [
     path('user/profile/<int:pk>',user_profile,name="user_profile"),
     path('fetchTotalProductIn/',get_monthly_product_in,name="fetch_product_in"),
     path('fetchTotalSalesMonthly/',get_monthly_yearly_sales,name="fetch_total_sales"),
+
+    path('generateInventoryReport/',generate_inventory_report,name="generate_inventory_report"),
 ]

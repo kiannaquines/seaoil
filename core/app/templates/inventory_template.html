@@ -1,0 +1,103 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Report</title>
+    <style>
+        * {
+            font-family: 'Public Sans', sans-serif;
+        }
+
+        @page {
+            size: a4 portrait;
+            @frame header_frame {
+                -pdf-frame-content: header_content;
+                left: 50pt; width: 512pt; top: 20pt; height: 20pt;
+            }
+            @frame content_frame {
+                left: 50pt; width: 512pt; top: 40pt; height: 632pt;
+            }
+
+            @frame footer_frame {
+                -pdf-frame-content: footer_content;
+                left: 50pt; width: 512pt; top: 772pt; height: 20pt;
+            }
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #fafafa;
+            padding: 5px;
+            text-align: left;
+        }
+        th {
+            background-color: #014171;
+            font-weight: bold;
+            text-align: center;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        #header_frame {
+            color: #014171;
+        }
+
+        .main_header {
+            font-size: 20px;
+            display: block;
+            margin: 0;
+            padding: 0;
+            font-weight: bold;
+        }
+
+        .generated_at {
+            font-size: 10px;
+            font-weight: normal;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+    
+</head>
+<body>
+    <div id="header_frame">
+        <img src="{{ logo_path }}" alt="Seaoil Logo" style="height: 50px; vertical-align: middle; margin-right: 10px;">
+        <span class="main_header">Seaoil Warehouse Inventory Report</span>
+        <span class="generated_at">Generate at {{ date_generated }}</span>
+    </div>
+    <div id="content_frame">
+        <table>
+            <tr>
+                <th>Product</th>
+                <th>Supplier</th>
+                <th>Stock</th>
+                <th>Category</th>
+                <th>Status</th>
+                <th>Date Stocked</th>
+            </tr>
+            {% for product in warehouse_product %}
+            <tr>
+                <td>{{ product.warehouse_product_name }}</td>
+                <td>{{ product.warehouse_product_supplier.supplier_companyname }}</td>
+                <td>{{ product.warehouse_product_stock }} in stock</td>
+                <td>{{ product.warehouse_product_category.category_name }}</td>
+                <td>{{ product.warehouse_product_status }}</td>
+                <td>{{ product.warehouse_product_date_added }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div id="footer_content">Seaoil Inventory & Point of Sales System - page <pdf:pagenumber>
+        of <pdf:pagecount>
+    </div>
+</body>
+</html>
