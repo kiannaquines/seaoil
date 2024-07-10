@@ -82,20 +82,20 @@ def auth_login(request):
 		if login_action.exists():
 
 			if login_action[0].is_active is not True:
-				messages.error(request,"Your account is not activated yet, wait while we process your account activation.")
+				messages.error(request,"Your account is not activated yet, wait while we process your account activation.",extra_tags="login_inactive")
 				return HttpResponseRedirect('/auth/login/')
 			else:
 				auth = authenticate(request,username=username,password=password)
 			
 			if auth is not None:
 				login(request,auth)
-				messages.success(request,"You have successfully logged in.")
+				messages.success(request,"You have successfully logged in.",extra_tags="login_success")
 				return HttpResponseRedirect('/')
 			else:
-				messages.error(request,"Incorrect username/password, please try again.")
+				messages.error(request,"Incorrect username/password, please try again.",extra_tags="login_invalid")
 				return render(request,"auth/login.html")
 		else:
-			messages.error(request,"We cannot find your account, please try again.")
+			messages.error(request,"We cannot find your account, please try again.",extra_tags="login_error")
 			return render(request,"auth/login.html")
 		
 	return render(request,"auth/login.html")
