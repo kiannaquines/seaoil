@@ -6,7 +6,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sales Invoice</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
     <style>
         @page {
             size: a4 portrait;
@@ -15,7 +14,7 @@
                 left: 50pt; width: 512pt; top: 20pt; height: 20pt;
             }
             @frame content_frame {
-                left: 50pt; width: 512pt; top: 40pt; height: 632pt;
+                left: 50pt; width: 512pt; top: 40pt; height: 720pt;
             }
 
             @frame footer_frame {
@@ -25,7 +24,6 @@
         }
 
         body {
-            font-family: 'Noto Sans', sans-serif;
             color: #014171;
         }
 
@@ -35,6 +33,12 @@
             margin-top: 10px;
             text-align: start;
             font-size: 15px;
+        }
+
+        .withBackground{
+            background-color: #FEF200;
+            color: #014171;
+            border-top: 0px !important;
         }
 
         .main_header span {
@@ -69,6 +73,10 @@
             border-top: 0px !important;
         }
 
+        .alignCenter{
+            text-align: center !important;
+        }
+
         td, th {
             border-top: 1px solid #014171;
             padding: 4px;
@@ -84,7 +92,7 @@
         }
 
         .imgProp {
-            height: 15px !important;
+            height: 13px !important;
             width: 10px !important;
         }
     </style>
@@ -106,11 +114,11 @@
         <table id="table1">
             <tr>
                 <th colspan="2">Receipt Number: 3545</th>
-                <th colspan="2" class="alignright">Date: 09/09/2024 9:45 pm</th>
+                <th colspan="2" class="alignright">Date: {{ date_generated }}</th>
             </tr>
             <tr>
-                <th colspan="2" class="no-border">Customer Name: Kian Jearard G. Naquines</th>
-                <th colspan="2" class="no-border alignright">Encoded by: Karen A. Abayon</th>
+                <th colspan="2" class="no-border">Customer Name: {{ customer_name }}</th>
+                <th colspan="2" class="no-border alignright">Encoder: {{ encoder }}</th>
             </tr>
             <tr>
                 <th class="withBackground">Product</th>
@@ -118,50 +126,54 @@
                 <th class="withBackground">Price</th>
                 <th class="withBackground">Total</th>
             </tr>
+            {% for sale in invoice %}
             <tr>
-                <td class="no-border">Gasoline Engine Oil SAE40</td>
-                <td class="no-border">1x</td>
+                <td class="no-border">
+                    {{ sale.sale_product.product_warehouse_product.warehouse_product_name }}
+                </td>
+                <td class="no-border">{{ sale.sale_quantity }}x</td>
                 <td class="no-border">
                     <img src="{{ peso_path }}" class="imgProp">
-                    <p>89.75</p>
+                    <span style="margin-left: 5px;">{{ sale.sale_amount }}</span>
                 </td>
                 <td class="no-border"> 
                     <img src="{{ peso_path }}" class="imgProp"> 
-                    <p>89.75</p>
+                    <span style="margin-left: 5px;">{{ sale.per_order_total_price }}</span>
                 </td>
             </tr>
+            {% endfor %}
             <tr>
                 <td colspan="2"></td>
-                <th align="start">Total</th>
+                <th align="left">Total Amount</th>
                 <td> 
                     <img src="{{ peso_path }}" class="imgProp"> 
-                    <p>89.75</p>
+                    <span style="margin-left: 5px;">{{ total_sum }}</span>
                 </td>
             </tr>
             <tr>
                 <td colspan="2" class="no-border"></td>
-                <th align="start" class="no-border">Tax</th>
+                <th align="left" class="no-border">VAT</th>
                 <td class="no-border"> 
                     <img src="{{ peso_path }}" class="imgProp"> 
-                    <p>89.75</p>
+                    <span style="margin-left: 5px;">{{ tax_calculated }}</span>
+                </td>
+            </tr>
+            {% comment %} <tr>
+                <td colspan="2" class="no-border"></td>
+                <th align="left" class="no-border">Amount Paid</th>
+                <td class="no-border"> 
+                    <img src="{{ peso_path }}" class="imgProp"> 
+                    <span style="margin-left: 5px;">100.00</span>
                 </td>
             </tr>
             <tr>
                 <td colspan="2" class="no-border"></td>
-                <th align="start" class="no-border">Total Paid</th>
+                <th align="left" class="no-border">Change</th>
                 <td class="no-border"> 
                     <img src="{{ peso_path }}" class="imgProp"> 
-                    <p>89.75</p>
+                    <span style="margin-left: 5px;">89.75</span>
                 </td>
-            </tr>
-            <tr>
-                <td colspan="2" class="no-border"></td>
-                <th align="start" class="no-border">Change</th>
-                <td class="no-border"> 
-                    <img src="{{ peso_path }}" class="imgProp"> 
-                    <p>89.75</p>
-                </td>
-            </tr>
+            </tr> {% endcomment %}
             <tr>
                 <td colspan="4" class="no-border"></td>
             </tr>

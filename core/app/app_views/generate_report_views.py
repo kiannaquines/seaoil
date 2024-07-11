@@ -7,6 +7,9 @@ from django.views.decorators.http import require_GET
 from app.models import WarehouseProductModel,SaleModel
 import os
 from django.utils import timezone
+from django.db.models import F,Sum
+from app.models import CustomUser
+
 
 @require_GET
 def generate_inventory_report(request):
@@ -46,15 +49,32 @@ def generate_sales_report(request):
     
     return response
 
-def generate_sales_invoice(request,name):
+def generate_sales_invoice(request,name,encoder):
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'attachment; filename=sale-invoice-{name}.pdf'
-    customer_name = request.GET.get('name')
     today = timezone.now().date()
 
-    query_invoice = SaleModel.objects.filter(sale_date_added__date=today, sale_customername=customer_name, encoded_by=request.user).all()
+    query_invoice = SaleModel.objects.filter(
+        sale_date_added__date=today,
+        sale_customername=name,
+        encoded_by=request.user
+    ).annotate(
+        per_order_total_price=F('sale_quantity') * F('sale_amount')
+    ).all()
+
+    sum_total_amounts = query_invoice.aggregate(
+        sum_total_amount=Sum('per_order_total_price')
+    )
+    encoder_queryset = CustomUser.objects.get(username=encoder)
+    tax_calculated = (sum_total_amounts['sum_total_amount'] / 1.12) * 0.12
+
     context = {
-        'sales': query_invoice,
+        'invoice': query_invoice,
+        'customer_name': name,
+        'date_generated': today,
+        'tax_calculated': tax_calculated,
+        'encoder': f'{encoder_queryset.username.capitalize()}' if encoder_queryset else 'N/A',
+        'total_sum':sum_total_amounts['sum_total_amount'],
         'logo_path': os.path.join(settings.MEDIA_ROOT,'logo','seaoil-logo.svg'),
         'peso_path': os.path.join(settings.MEDIA_ROOT,'logo','peso.svg')
     }

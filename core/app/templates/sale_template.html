@@ -7,8 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sale Report</title>
     <style>
-        * {
-            font-family: 'Public Sans', sans-serif;
+        body {
+            font-family: 'Noto Sans', sans-serif;
+            color: #014171;
         }
 
         @page {
@@ -18,7 +19,7 @@
                 left: 50pt; width: 512pt; top: 20pt; height: 20pt;
             }
             @frame content_frame {
-                left: 50pt; width: 512pt; top: 40pt; height: 632pt;
+                left: 50pt; width: 512pt; top: 40pt; height: 720pt;
             }
 
             @frame footer_frame {
@@ -30,6 +31,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
+            margin-top: 10px;
         }
         th, td {
             border: 1px solid #fafafa;
@@ -50,13 +52,23 @@
             color: #014171;
         }
 
-        .main_header {
-            font-size: 20px;
-            display: block;
-            margin: 0;
-            padding: 0;
-            font-weight: bold;
+        .withBackground{
+            background-color: #FEF200;
+            color: #014171;
+            border-top: 0px !important;
+            line-height: 7px;
         }
+
+        .main_header span {
+            text-align: right;
+            display: block;
+            line-height: 3px;
+            font-size: 20px;
+            word-spacing: 5px;
+            color: #014171;
+            font-weight: 500;
+        }
+
 
         .generated_at {
             font-size: 10px;
@@ -70,17 +82,20 @@
 <body>
     <div id="header_frame">
         <img src="{{ logo_path }}" alt="Seaoil Logo" style="height: 50px; vertical-align: middle; margin-right: 10px;">
-        <span class="main_header">President Roxas Seaoil Branch Sales Report</span>
-        <span class="generated_at">Generate at {{ date_generated }}</span>
+        <div class="main_header">
+            <span>Sales Report</span>
+            <span>President Roxas Seaoil</span>
+            <span>Brg. Labu-u President Roxas</span>
+        </div>
     </div>
     <div id="content_frame">
         <table>
             <tr>
-                <th>Product</th>
-                <th>Customer</th>
-                <th>Amount</th>
-                <th>Quantity</th>
-                <th>Date Purchased</th>
+                <th class="withBackground">Product</th>
+                <th class="withBackground">Customer</th>
+                <th class="withBackground">Amount</th>
+                <th class="withBackground">Quantity</th>
+                <th class="withBackground">Date Purchased</th>
             </tr>
             {% for sale in sales %}
             <tr>
