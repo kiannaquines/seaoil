@@ -9,7 +9,7 @@ import os
 from django.utils import timezone
 from django.db.models import F,Sum
 from app.models import CustomUser
-
+import random
 
 @require_GET
 def generate_inventory_report(request):
@@ -66,13 +66,14 @@ def generate_sales_invoice(request,name,encoder):
         sum_total_amount=Sum('per_order_total_price')
     )
     encoder_queryset = CustomUser.objects.get(username=encoder)
-    tax_calculated = (sum_total_amounts['sum_total_amount'] / 1.12) * 0.12
+    tax_calculated = f'{(sum_total_amounts['sum_total_amount'] / 1.12) * 0.12:.2f}'
 
     context = {
         'invoice': query_invoice,
         'customer_name': name,
         'date_generated': today,
         'tax_calculated': tax_calculated,
+        'receipt_number': f'#{random.randint(100, 200)}{timezone.now().strftime("%Y%m%d")}',
         'encoder': f'{encoder_queryset.username.capitalize()}' if encoder_queryset else 'N/A',
         'total_sum':sum_total_amounts['sum_total_amount'],
         'logo_path': os.path.join(settings.MEDIA_ROOT,'logo','seaoil-logo.svg'),
