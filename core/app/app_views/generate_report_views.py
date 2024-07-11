@@ -75,7 +75,8 @@ def generate_sales_invoice(request,name,encoder):
         'tax_calculated': tax_calculated,
         'receipt_number': f'#{random.randint(100, 200)}{timezone.now().strftime("%Y%m%d")}',
         'encoder': f'{encoder_queryset.username.capitalize()}' if encoder_queryset else 'N/A',
-        'total_sum':sum_total_amounts['sum_total_amount'],
+        'subtotal':sum_total_amounts['sum_total_amount'],
+        'total_sum': sum_total_amounts['sum_total_amount'] + float(tax_calculated),
         'logo_path': os.path.join(settings.MEDIA_ROOT,'logo','seaoil-logo.svg'),
         'peso_path': os.path.join(settings.MEDIA_ROOT,'logo','peso.svg')
     }

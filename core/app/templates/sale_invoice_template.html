@@ -144,10 +144,10 @@
             {% endfor %}
             <tr>
                 <td colspan="2"></td>
-                <th align="left">Total Amount</th>
+                <th align="left">Sub Amount</th>
                 <td> 
                     <img src="{{ peso_path }}" class="imgProp"> 
-                    <span style="margin-left: 5px;">{{ total_sum }}</span>
+                    <span style="margin-left: 5px;">{{ subtotal }}</span>
                 </td>
             </tr>
             <tr>
@@ -156,6 +156,14 @@
                 <td class="no-border"> 
                     <img src="{{ peso_path }}" class="imgProp"> 
                     <span style="margin-left: 5px;">{{ tax_calculated }}</span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2"></td>
+                <th align="left">Total Amount</th>
+                <td> 
+                    <img src="{{ peso_path }}" class="imgProp"> 
+                    <span style="margin-left: 5px;">{{ total_sum }}</span>
                 </td>
             </tr>
             {% comment %} <tr>
