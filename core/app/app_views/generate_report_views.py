@@ -9,7 +9,7 @@ import os
 from django.utils import timezone
 from django.db.models import F,Sum
 from app.models import CustomUser
-import random
+from app.utils import receipt_number_generator
 
 @require_GET
 def generate_inventory_report(request):
@@ -73,10 +73,10 @@ def generate_sales_invoice(request,name,encoder):
         'customer_name': name,
         'date_generated': today,
         'tax_calculated': tax_calculated,
-        'receipt_number': f'#{random.randint(100, 200)}{timezone.now().strftime("%Y%m%d")}',
+        'receipt_number': f'#{receipt_number_generator()}',
         'encoder': f'{encoder_queryset.username.capitalize()}' if encoder_queryset else 'N/A',
         'subtotal':sum_total_amounts['sum_total_amount'],
-        'total_sum': sum_total_amounts['sum_total_amount'] + float(tax_calculated),
+        'total_sum': f'{sum_total_amounts['sum_total_amount'] + float(tax_calculated):.2f}',
         'logo_path': os.path.join(settings.MEDIA_ROOT,'logo','seaoil-logo.svg'),
         'peso_path': os.path.join(settings.MEDIA_ROOT,'logo','peso.svg')
     }
