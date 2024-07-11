@@ -30,7 +30,7 @@ def check_if_logged_in(view_func):
         if user.user_type == CustomUser.USER_TYPE[0][0]:
             return view_func(request,*args,**kwargs)
         else:
-            messages.error(request, 'Sorry, you need to be authenticated to access this page.',extra_tags="not_enought_permission")
+            messages.error(request, 'Sorry, you need to be authenticated to access this page.',extra_tags="not_logged_in")
             return redirect('/auth/login/')
         
     return _wrapped_view
