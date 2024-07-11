@@ -11,9 +11,8 @@
         {% include './../includes/messages.html' %}
     </div>
     <div class="col-md-12">
-        <div class="d-flex justify-content-between align-items-center mb-2">
-            <h4>My Sales</h4>
-            <button data-bs-toggle="modal" data-bs-target="#addModal" class="btn btn-primary">Add New Sale</button>
+        <div class="mb-2">
+            <h4>Latest Sales</h4>
         </div>
         <div class="card">
             <div class="card-content m-3">
@@ -22,35 +21,27 @@
                         <caption class="ms-3">Sales list</caption>
                         <thead>
                             <tr>
-                                <th>Product Name</th>
-                                <th>Amount</th>
                                 <th>Customer Name</th>
+                                <th>Total Order</th>
                                 <th>Encoded By</th>
-                                <th>Date Encoded</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {% for sale in sales %}
+                            {% for sale in sales_invoice %}
                             <tr>
-                                <td>
-                                    <span class="fw-medium">
-                                        {{ sale.sale_product.product_warehouse_product.warehouse_product_name }}
-                                    </span>
-                                </td>
-                                <td>{{ sale.sale_amount }}</td>
                                 <td>{{ sale.sale_customername }}</td>
-                                <td>{{ sale.encoded_by }}</td>
-                                <td>{{ sale.sale_date_added }}</td>
+                                <td>{{ sale.count_sale }}</td>
+                                <td>{{ sale.encoded_by__username }}</td>
                                 <td>
                                     <div class="dropdown">
                                         <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                                             <i class="bx bx-dots-vertical-rounded"></i>
                                         </button>
                                         <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="{% url 'sale_edit' pk=sale.sale_id %}">
-                                                <i class="bx bx-edit-alt me-1"></i>
-                                                Edit
+                                            <a class="dropdown-item" href="#">
+                                                <i class="bx bx-download me-1"></i>
+                                                Download Invoice
                                             </a>
                                         </div>
                                     </div>
@@ -64,7 +55,6 @@
         </div>
     </div>
 </div>
-{% include './add_sale.html' %}
 {% endblock content %}
 
 {% block pagejs %}

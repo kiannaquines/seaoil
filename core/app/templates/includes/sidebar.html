@@ -83,6 +83,12 @@
             <span class="menu-header-text">Manager Pages</span>
         </li>
         <li class="menu-item active">
+            <a href="{% url 'manager_page' %}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-collection"></i>
+                <div data-i18n="Basic">Analytics</div>
+            </a>
+        </li>
+        <li class="menu-item">
             <a href="#" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-collection"></i>
                 <div data-i18n="Basic">Reports</div>
@@ -95,9 +101,15 @@
             <span class="menu-header-text">Attendant Pages</span>
         </li>
         <li class="menu-item active">
-            <a href="#" class="menu-link">
+            <a href="{% url 'attendant_page' %}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-collection"></i>
-                <div data-i18n="Basic">Inventory</div>
+                <div data-i18n="Basic">Dashboard</div>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a href="{% url 'attendant_sales_invoice_page' %}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-collection"></i>
+                <div data-i18n="Basic">Sales Invoice</div>
             </a>
         </li>
     </ul>

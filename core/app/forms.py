@@ -123,6 +123,23 @@ class UserUpdateForm(ModelForm):
         exclude = ['password1','password2',]
 
 
+class AttendantSalesForm(ModelForm):
+    def __init__(self,*args,**kwargs):
+        super(AttendantSalesForm,self).__init__(*args,**kwargs)
+        self.fields['sale_product'].widget.attrs.update({'class':'form-control','spellcheck':'false'})
+        self.fields['sale_product'].label = "Product"
+        self.fields['sale_quantity'].widget.attrs.update({'class':'form-control','spellcheck':'false','placeholder':'Quantity'})
+        self.fields['sale_quantity'].label = "Quantity"
+        self.fields['sale_customername'].widget.attrs.update({'class':'form-control','spellcheck':'false','placeholder':'Customer Name'})
+        self.fields['sale_customername'].label = "Customer Name"
+        self.fields['sale_amount'].widget.attrs.update({'class':'form-control','spellcheck':'false','placeholder':'Amount'})
+        self.fields['sale_amount'].label = "Amount"
+    
+    class Meta:
+        model = SaleModel
+        fields = ['sale_product','sale_quantity','sale_customername','sale_amount']
+
+
 
 
 

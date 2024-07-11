@@ -10,7 +10,7 @@
 
   // Total Revenue Chart
   const totalRevenueChartElement = document.querySelector('#totalRevenueChart');
-  fetch("fetchTotalSalesMonthly/")
+  fetch("/fetchTotalSalesMonthly/")
   .then(response => response.json())
   .then(jsonData => {
 
@@ -84,7 +84,7 @@
 
   // Product Monthly In
   const productInChartElement = document.querySelector('#productMonthlyIn');
-  fetch('fetchTotalProductIn/')
+  fetch('/fetchTotalProductIn/')
     .then(response => response.json())
     .then(data => {
       const categories = data.map(item => item.month);

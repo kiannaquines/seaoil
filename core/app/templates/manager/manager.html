@@ -1,9 +1,104 @@
 {% extends './../includes/base.html' %}
+{% load static %}
+
+
+{% block pagecss %}
+<link rel="stylesheet" href="{% static 'assets/vendor/libs/apex-charts/apex-charts.css' %}">
+{% endblock pagecss %}
 
 {% block content %}
 <div class="row">
-    <div class="col-md-12">
+    <!-- Total Revenue -->
+    <div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
         {% include './../includes/messages.html' %}
+        <div class="card">
+            <div class="row row-bordered g-0">
+                <div class="col-md-12">
+                    <h5 class="card-header m-0 me-2 pb-3">Yearly Seaoil President Roxas Branch Revenue</h5>
+                    <div id="totalRevenueChart" class="px-2"></div>
+                </div>
+            </div>
+        </div>
     </div>
+    <!--/ Total Revenue -->
 </div>
-{% endblock content %}
+<div class="row">
+    <!-- Expense Overview -->
+    <div class="col-md-12 col-lg-12 order-1 mb-4">
+        <div class="card h-100">
+            <div class="card-header">
+                <ul class="nav nav-pills" role="tablist">
+                    <li class="nav-item">
+                        <button
+                            type="button"
+                            class="nav-link active"
+                            role="tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#navs-tabs-line-card-income"
+                            aria-controls="navs-tabs-line-card-income"
+                            aria-selected="true"
+                        >
+                            Products In
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body px-0">
+                <div class="tab-content p-0">
+                    <div class="tab-pane fade show active" id="navs-tabs-line-card-income" role="tabpanel">
+                        <div class="d-flex p-4 pt-3">
+                            <div class="avatar flex-shrink-0 me-3 bg-primary-transparent">
+                                <img src="{% static 'assets/img/icons/unicons/box.svg' %}" alt="User">
+                            </div>
+                            <div>
+                                <small class="text-muted d-block">Total Product</small>
+                                <div class="d-flex align-items-center">
+                                    <h6 class="mb-0 me-1">+{{ warehouseproduct_count }}</h6>
+                                    <small class="text-success fw-medium">
+                                        <i class="bx bx-chevron-up"></i>
+                                        42.9%
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="avatar flex-shrink-0 me-3 bg-primary-transparent">
+                                <img src="{% static 'assets/img/icons/unicons/box.svg' %}" alt="User">
+                            </div>
+                            <div>
+                                <small class="text-muted d-block">Todays Product In</small>
+                                <div class="d-flex align-items-center">
+                                    <h6 class="mb-0 me-1">+{{ todays_product_count }}</h6>
+                                    <small class="text-success fw-medium">
+                                        <i class="bx bx-chevron-up"></i>
+                                        42.9%
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="avatar flex-shrink-0 me-3 bg-primary-transparent">
+                                <img src="{% static 'assets/img/icons/unicons/box.svg' %}" alt="User">
+                            </div>
+                            <div>
+                                <small class="text-muted d-block">Last Week Product In</small>
+                                <div class="d-flex align-items-center">
+                                    <h6 class="mb-0 me-1">+{{ last_weeks_data_count }}</h6>
+                                    <small class="text-success fw-medium">
+                                        <i class="bx bx-chevron-up"></i>
+                                        42.9%
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="productMonthlyIn"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/ Expense Overview -->
+</div>
+{% endblock %}
+
+{% block pagejs %}
+<script src="{% static 'assets/vendor/libs/apex-charts/apexcharts.js' %}"></script>
+<script src="{% static 'assets/js/dashboards-analytics.js' %}"></script>
+{% endblock pagejs %}
+

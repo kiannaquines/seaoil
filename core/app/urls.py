@@ -37,4 +37,5 @@ urlpatterns = [
 
     path('manager/',manager_page,name="manager_page"),
     path('attendant/',attendant_page,name="attendant_page"),
+    path('attendant/sales/invoice',attendant_sales_invoice_page,name="attendant_sales_invoice_page"),
 ]

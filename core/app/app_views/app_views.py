@@ -7,6 +7,10 @@ from django.contrib import messages
 from django.views.generic import DeleteView, UpdateView
 from app.decorators import *
 from django.utils.decorators import method_decorator
+from django.utils import timezone
+from core.settings import MINIMUM
+from django.db.models import Sum,F,Count
+from django.db.models.functions import Lower
 
 # DONE
 @login_required(login_url="/auth/login/")
@@ -333,10 +337,76 @@ class SaleDeleteView(DeleteView):
 
 
 def manager_page(request):
-    return render(request, "manager/manager.html")
+    today_date = timezone.now().date()
+    last_week = today_date - timezone.timedelta(days=7)
+    total_sale = SaleModel.objects.aggregate(sale=Sum('sale_amount'))
+    warehouse_product_count = WarehouseProductModel.objects.all().count()
+    product_count_today = WarehouseProductModel.objects.filter(warehouse_product_date_added__date=today_date).all().count()
+    latest_transactions = SaleModel.objects.all().order_by('-sale_date_added')[:7]
+    last_weeks_data = WarehouseProductModel.objects.filter(warehouse_product_date_added__range=[last_week, today_date]).count()
+
+    warehouse_product_stock_check = WarehouseProductModel.objects.filter(warehouse_product_stock__lt=MINIMUM).all()
+
+
+    context = {
+        'total_sale':total_sale,
+        'total_products_count':warehouse_product_count,
+        'todays_product_count':product_count_today,
+        'warehouseproduct_count':warehouse_product_count,
+        'latest_transactions':latest_transactions,
+        'last_weeks_data_count':last_weeks_data,
+        'warehouse_product_stock_check': warehouse_product_stock_check,
+    }
+
+    return render(request, "manager/manager.html",context)
 
 def attendant_page(request):
-    return render(request, "attendant/attendant.html")
+    sales_form = AttendantSalesForm()
+    sales = SaleModel.objects.filter(encoded_by=CustomUser.objects.get(id=request.user.id)).all().order_by('-sale_date_added')
+
+    context = {
+        'form':sales_form,
+        'sales': sales,
+    }
+
+    if request.method == "POST":
+        sales_form = AttendantSalesForm(request.POST)
+
+        if sales_form.is_valid():
+            sale = sales_form.save(commit=False)
+            sale.encoded_by = request.user
+            sale.save()
+            messages.success(request,"You have added new sale, thank you!",extra_tags="add_success")
+            return HttpResponseRedirect("/attendant/")
+        else:
+            print(sales_form.errors)
+            messages.error(request,"Something went wrong, please try again.",extra_tags="some_error")
+            return HttpResponseRedirect("/attendant/")
+
+    return render(request, "attendant/attendant.html",context)
+
+
+def attendant_sales_invoice_page(request):
+
+    today = timezone.now().date()
+
+    sales_invoice = SaleModel.objects.filter(
+        sale_date_added__date=today,
+        encoded_by=request.user
+    ).values(
+        'sale_customername', 'encoded_by__username'
+    ).annotate(
+        customer_name=Lower('sale_customername'),
+        count_sale=Count('sale_id'),
+        encoded_by=F('encoded_by__username')
+    ).order_by('customer_name')
+    
+    context = {
+        'sales_invoice': sales_invoice,
+    }
+
+    return render(request, "attendant/invoice_list.html",context)
+
 
 
 
