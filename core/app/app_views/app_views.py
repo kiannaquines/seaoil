@@ -5,9 +5,12 @@ from app.forms import *
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.views.generic import DeleteView, UpdateView
+from app.decorators import *
+from django.utils.decorators import method_decorator
 
 # DONE
 @login_required(login_url="/auth/login/")
+@check_user_permission_based_on_user_type
 def supplier_index(request):
     suppliers = SupplierModel.objects.all()
     supplier_form = SupplierForm()
@@ -27,6 +30,8 @@ def supplier_index(request):
     return render(request,"supplier.html",context)
 
 # DONE
+@method_decorator(check_if_logged_in,name='dispatch')
+@method_decorator(check_user_permission_based_on_user_type, name='dispatch')
 class SupplierUpdateView(UpdateView):
     form_class = SupplierForm
     model = SupplierModel
@@ -39,7 +44,9 @@ class SupplierUpdateView(UpdateView):
         messages.success(self.request, 'You have successfully updated supplier information, thank you!',extra_tags="edit_success")
         return response
 
-# DONE    
+# DONE
+@method_decorator(check_if_logged_in,name='dispatch')
+@method_decorator(check_user_permission_based_on_user_type, name='dispatch')    
 class SupplierDeleteView(DeleteView):
     model = SupplierModel
     pk_url_kwarg = "pk"
@@ -53,6 +60,7 @@ class SupplierDeleteView(DeleteView):
 
 # DONE
 @login_required(login_url="/auth/login/")
+@check_user_permission_based_on_user_type
 def users_index(request):
     users = CustomUser.objects.all()
     user_form = UserRegistrationForm()
@@ -77,6 +85,8 @@ def users_index(request):
     return render(request,"users.html",context)
 
 # DONE
+@method_decorator(check_if_logged_in,name='dispatch')
+@method_decorator(check_user_permission_based_on_user_type, name='dispatch')
 class UserUpdateView(UpdateView):
     model = CustomUser
     pk_url_kwarg = "pk"
@@ -90,6 +100,8 @@ class UserUpdateView(UpdateView):
         return response
 
 # DONE
+@method_decorator(check_if_logged_in,name='dispatch')
+@method_decorator(check_user_permission_based_on_user_type, name='dispatch')
 class DeleteUserView(DeleteView):
     model = CustomUser
     success_url = '/users/'
@@ -103,6 +115,7 @@ class DeleteUserView(DeleteView):
 
 # DONE
 @login_required(login_url="/auth/login/")
+@check_user_permission_based_on_user_type
 def category_index(request):
     categories = CategoryModel.objects.all()
     category_form = CategoryForm()
@@ -121,6 +134,8 @@ def category_index(request):
     return render(request,"category.html",context)
 
 # DONE
+@method_decorator(check_if_logged_in,name='dispatch')
+@method_decorator(check_user_permission_based_on_user_type, name='dispatch')
 class CategoryEditView(UpdateView):
     model = CategoryModel
     pk_url_kwarg = "pk"
@@ -134,6 +149,8 @@ class CategoryEditView(UpdateView):
         return response
 
 # DONE
+@method_decorator(check_if_logged_in,name='dispatch')
+@method_decorator(check_user_permission_based_on_user_type, name='dispatch')
 class CategoryDeleteView(DeleteView):
     model = CategoryModel
     pk_url_kwarg = "pk"
@@ -146,6 +163,7 @@ class CategoryDeleteView(DeleteView):
         return response
 
 @login_required(login_url="/auth/login/")
+@check_user_permission_based_on_user_type
 def inventory_index(request):
     inventories = WarehouseProductModel.objects.all()
     context = {
@@ -156,6 +174,7 @@ def inventory_index(request):
 
 # DONE
 @login_required(login_url="/auth/login/")
+@check_user_permission_based_on_user_type
 def products_index(request):
     products = ProductModel.objects.all()
     products_form = ProductForm()
@@ -178,6 +197,8 @@ def products_index(request):
     return render(request,"products.html",context)
 
 # DONE
+@method_decorator(check_if_logged_in,name='dispatch')
+@method_decorator(check_user_permission_based_on_user_type, name='dispatch')
 class ProductUpdateView(UpdateView):
     model = ProductModel
     form_class = ProductForm
@@ -191,6 +212,8 @@ class ProductUpdateView(UpdateView):
         return response
 
 # DONE
+@method_decorator(check_if_logged_in,name='dispatch')
+@method_decorator(check_user_permission_based_on_user_type, name='dispatch')
 class ProductDeleteView(DeleteView):
     model = ProductModel
     pk_url_kwarg = "pk"
@@ -204,6 +227,7 @@ class ProductDeleteView(DeleteView):
 
 # DONE
 @login_required(login_url="/auth/login/")
+@check_user_permission_based_on_user_type
 def warehouseproducts_index(request):
     warehouseproducts = WarehouseProductModel.objects.all()
     warehouseproducts_form = WarehouseProductForm()
@@ -226,6 +250,8 @@ def warehouseproducts_index(request):
     return render(request,"warehouseproducts.html",context)
 
 # DONE
+@method_decorator(check_if_logged_in,name='dispatch')
+@method_decorator(check_user_permission_based_on_user_type, name='dispatch')
 class WarehouseProductUpdateView(UpdateView):
     model = WarehouseProductModel
     form_class = WarehouseProductForm
@@ -239,6 +265,8 @@ class WarehouseProductUpdateView(UpdateView):
         return response
 
 # DONE
+@method_decorator(check_if_logged_in,name='dispatch')
+@method_decorator(check_user_permission_based_on_user_type, name='dispatch')
 class WarehouseProductDeleteView(DeleteView):
     model = WarehouseProductModel
     pk_url_kwarg = "pk"
@@ -252,6 +280,7 @@ class WarehouseProductDeleteView(DeleteView):
 
 # DONE
 @login_required(login_url="/auth/login/")
+@check_user_permission_based_on_user_type
 def sales_index(request):
     sales = SaleModel.objects.all()
     sale_form = SalesForm()
@@ -274,6 +303,8 @@ def sales_index(request):
     return render(request,"sales.html",context)
 
 # DONE
+@method_decorator(check_if_logged_in,name='dispatch')
+@method_decorator(check_user_permission_based_on_user_type, name='dispatch')
 class SaleUpdateView(UpdateView):
     model = SaleModel
     form_class = SalesForm
@@ -287,6 +318,8 @@ class SaleUpdateView(UpdateView):
         return response
 
 # DONE
+@method_decorator(check_if_logged_in,name='dispatch')
+@method_decorator(check_user_permission_based_on_user_type, name='dispatch')
 class SaleDeleteView(DeleteView):
     model = SaleModel
     pk_url_kwarg = "pk"

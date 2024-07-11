@@ -35,7 +35,7 @@
                                 </div>
                                 <div class="flex-grow-1">
                                     <span class="fw-medium d-block">{{ request.user.first_name }} {{ request.user.last_name }}</span>
-                                    <small class="text-muted">Admin</small>
+                                    <small class="text-muted">{{ request.user.user_type }}</small>
                                 </div>
                             </div>
                         </a>

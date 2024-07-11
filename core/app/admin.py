@@ -10,13 +10,15 @@ class CustomUserAdmin(OriginalAdmin):
             {
                 'fields': (
                     'user_address',
+                    'user_type',
                 )
             }
         )
     )
 
-    list_display = ('username','first_name','last_name','date_joined','is_active',)
+    list_display = ('username','first_name','last_name','user_type','date_joined','is_active',)
     list_filter = ('is_active',)
+    list_editable = ["user_type",]
 
 
 class AdminWarehouseProduct(admin.ModelAdmin):
