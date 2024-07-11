@@ -1,0 +1,175 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Invoice</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
+    <style>
+        @page {
+            size: a4 portrait;
+            @frame header_frame {
+                -pdf-frame-content: header_content;
+                left: 50pt; width: 512pt; top: 20pt; height: 20pt;
+            }
+            @frame content_frame {
+                left: 50pt; width: 512pt; top: 40pt; height: 632pt;
+            }
+
+            @frame footer_frame {
+                -pdf-frame-content: footer_content;
+                left: 50pt; width: 512pt; top: 772pt; height: 20pt;
+            }
+        }
+
+        body {
+            font-family: 'Noto Sans', sans-serif;
+            color: #014171;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            text-align: start;
+            font-size: 15px;
+        }
+
+        .main_header span {
+            text-align: right;
+            display: block;
+            line-height: 3px;
+            font-size: 20px;
+            word-spacing: 4px;
+            color: #014171;
+            font-weight: 500;
+        }
+
+        table {
+            margin-top: 20px;
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        td{
+            color: #014171;
+            line-height: 7px;
+        }
+
+        th{
+            color: #014171;
+            line-height: 7px;
+        }
+
+        .withBackground{
+            background-color: #FEF200;
+            color: #014171;
+            border-top: 0px !important;
+        }
+
+        td, th {
+            border-top: 1px solid #014171;
+            padding: 4px;
+            text-align: start;
+        }
+
+        .alignright{
+            text-align: right !important;
+        }
+
+        .no-border{
+            border-top: 0px !important;
+        }
+
+        .imgProp {
+            height: 15px !important;
+            width: 10px !important;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="header_frame">
+        <div>
+            <img src="{{ logo_path }}" alt="Seaoil Logo" style="height: 50px;">
+        </div>
+        <div class="main_header">
+            <span>Sales Reciept</span>
+            <span>Seaoil Gasoline Station</span>
+            <span>Brg. Labu-u President Roxas</span>
+        </div>
+    </div>
+
+    <div id="content_frame">
+        <table id="table1">
+            <tr>
+                <th colspan="2">Receipt Number: 3545</th>
+                <th colspan="2" class="alignright">Date: 09/09/2024 9:45 pm</th>
+            </tr>
+            <tr>
+                <th colspan="2" class="no-border">Customer Name: Kian Jearard G. Naquines</th>
+                <th colspan="2" class="no-border alignright">Encoded by: Karen A. Abayon</th>
+            </tr>
+            <tr>
+                <th class="withBackground">Product</th>
+                <th class="withBackground">Quantity</th>
+                <th class="withBackground">Price</th>
+                <th class="withBackground">Total</th>
+            </tr>
+            <tr>
+                <td class="no-border">Gasoline Engine Oil SAE40</td>
+                <td class="no-border">1x</td>
+                <td class="no-border">
+                    <img src="{{ peso_path }}" class="imgProp">
+                    <p>89.75</p>
+                </td>
+                <td class="no-border"> 
+                    <img src="{{ peso_path }}" class="imgProp"> 
+                    <p>89.75</p>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2"></td>
+                <th align="start">Total</th>
+                <td> 
+                    <img src="{{ peso_path }}" class="imgProp"> 
+                    <p>89.75</p>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="no-border"></td>
+                <th align="start" class="no-border">Tax</th>
+                <td class="no-border"> 
+                    <img src="{{ peso_path }}" class="imgProp"> 
+                    <p>89.75</p>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="no-border"></td>
+                <th align="start" class="no-border">Total Paid</th>
+                <td class="no-border"> 
+                    <img src="{{ peso_path }}" class="imgProp"> 
+                    <p>89.75</p>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="no-border"></td>
+                <th align="start" class="no-border">Change</th>
+                <td class="no-border"> 
+                    <img src="{{ peso_path }}" class="imgProp"> 
+                    <p>89.75</p>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4" class="no-border"></td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="footer_content">Seaoil Inventory & Point of Sales System - page <pdf:pagenumber>
+        of <pdf:pagecount>
+    </div>
+</body>
+</html>

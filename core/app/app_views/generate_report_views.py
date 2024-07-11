@@ -6,6 +6,7 @@ from django.conf import settings
 from django.views.decorators.http import require_GET
 from app.models import WarehouseProductModel,SaleModel
 import os
+from django.utils import timezone
 
 @require_GET
 def generate_inventory_report(request):
@@ -44,3 +45,26 @@ def generate_sales_report(request):
         return HttpResponse('Error generating PDF: %s' % createPDF.err)
     
     return response
+
+def generate_sales_invoice(request,name):
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename=sale-invoice-{name}.pdf'
+    customer_name = request.GET.get('name')
+    today = timezone.now().date()
+
+    query_invoice = SaleModel.objects.filter(sale_date_added__date=today, sale_customername=customer_name, encoded_by=request.user).all()
+    context = {
+        'sales': query_invoice,
+        'logo_path': os.path.join(settings.MEDIA_ROOT,'logo','seaoil-logo.svg'),
+        'peso_path': os.path.join(settings.MEDIA_ROOT,'logo','peso.svg')
+    }
+
+    template = get_template('sale_invoice_template.html')
+    template_rendered = template.render(context)
+    createPDF = pisa.CreatePDF(template_rendered, dest=response)
+
+    if createPDF.err:
+        return HttpResponse('Error generating PDF: %s' % createPDF.err)
+
+    return response
+
