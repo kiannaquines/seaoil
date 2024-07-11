@@ -33,4 +33,8 @@ urlpatterns = [
 
     path('generateInventoryReport/',generate_inventory_report,name="generate_inventory_report"),
     path('generateSalesReport/',generate_sales_report,name="generateSalesReport"),
+
+
+    path('manager/',manager_page,name="manager_page"),
+    path('attendant/',attendant_page,name="attendant_page"),
 ]

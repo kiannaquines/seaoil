@@ -17,7 +17,7 @@ def supplier_index(request):
 
     context = {
         'suppliers':suppliers,
-        'supplier_form': supplier_form,
+        'form': supplier_form,
     }
 
     if request.method == "POST":
@@ -329,3 +329,22 @@ class SaleDeleteView(DeleteView):
         response = super().form_valid(form)
         messages.success(self.request, 'You have successfully removed sale information, thank you!',extra_tags="delete_success")
         return response
+    
+
+
+def manager_page(request):
+    return render(request, "manager/manager.html")
+
+def attendant_page(request):
+    return render(request, "attendant/attendant.html")
+
+
+
+
+
+
+
+
+
+
+

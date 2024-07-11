@@ -11,7 +11,7 @@
         </a>
     </div>
     <div class="menu-inner-shadow"></div>
-    {% block sidebar %}
+    {% if request.user.user_type == "Cashier" %}
     <ul class="menu-inner py-1">
         <li class="menu-header small text-uppercase">
             <span class="menu-header-text">Dashboard</span>
@@ -77,5 +77,29 @@
             </a>
         </li>
     </ul>
-    {% endblock sidebar %}
+    {% elif request.user.user_type == "Manager" %}
+    <ul class="menu-inner py-1">
+        <li class="menu-header small text-uppercase">
+            <span class="menu-header-text">Manager Pages</span>
+        </li>
+        <li class="menu-item active">
+            <a href="#" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-collection"></i>
+                <div data-i18n="Basic">Reports</div>
+            </a>
+        </li>
+    </ul>
+    {% else %}
+    <ul class="menu-inner py-1">
+        <li class="menu-header small text-uppercase">
+            <span class="menu-header-text">Attendant Pages</span>
+        </li>
+        <li class="menu-item active">
+            <a href="#" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-collection"></i>
+                <div data-i18n="Basic">Inventory</div>
+            </a>
+        </li>
+    </ul>
+    {% endif %}
 </aside>

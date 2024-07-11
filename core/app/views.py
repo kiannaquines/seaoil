@@ -5,12 +5,13 @@ from app.models import CustomUser,SaleModel,WarehouseProductModel
 from django.contrib import messages
 from django.http import HttpResponseRedirect,JsonResponse
 from django.contrib.auth.hashers import make_password
-from app.decorators import check_already_loggedin
+from app.decorators import check_already_loggedin,check_user_permission_based_on_user_type
 from django.db.models import Sum,Count
 from django.db.models.functions import TruncMonth,ExtractYear, ExtractMonth
 from django.utils import timezone
 from datetime import datetime
 from core.settings import MINIMUM
+from django.urls import reverse_lazy
 
 @login_required(login_url="auth/login/")
 def get_monthly_product_in(request):
@@ -47,6 +48,7 @@ def get_monthly_yearly_sales(request):
 	return JsonResponse(result)
 
 @login_required(login_url="auth/login/")
+@check_user_permission_based_on_user_type
 def index(request):
 	today_date = timezone.now().date()
 	last_week = today_date - timezone.timedelta(days=7)
@@ -90,7 +92,13 @@ def auth_login(request):
 			if auth is not None:
 				login(request,auth)
 				messages.success(request,"You have successfully logged in.",extra_tags="login_success")
-				return HttpResponseRedirect('/')
+
+				if login_action[0].user_type == CustomUser.USER_TYPE[0][0]:
+					return HttpResponseRedirect(reverse_lazy('main_page'))
+				elif login_action[0].user_type == CustomUser.USER_TYPE[1][0]:
+					return HttpResponseRedirect(reverse_lazy('attendant_page'))
+				elif login_action[0].user_type == CustomUser.USER_TYPE[2][0]:
+					return HttpResponseRedirect(reverse_lazy('manager_page'))
 			else:
 				messages.error(request,"Incorrect username/password, please try again.",extra_tags="login_invalid")
 				return render(request,"auth/login.html")

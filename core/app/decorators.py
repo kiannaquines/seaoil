@@ -1,6 +1,8 @@
 from django.shortcuts import redirect
 from app.models import CustomUser
 from django.contrib import messages
+from django.http import HttpResponseRedirect
+from django.urls import reverse_lazy
 
 def check_already_loggedin(view_func):
     def _wrapped_view(request,*args,**kwargs):
@@ -18,9 +20,12 @@ def check_user_permission_based_on_user_type(view_func):
         if user.user_type == CustomUser.USER_TYPE[0][0]:
             return view_func(request,*args,**kwargs)
         else:
-            messages.error(request, 'Sorry, you do not have permission to access this page.',extra_tags="not_enought_permission")
-            return redirect('/')
-        
+            messages.error(request, 'Sorry, you do not have permission to access the page.',extra_tags="not_enought_permission")
+
+            if request.user.user_type == CustomUser.USER_TYPE[1][0]:
+                return HttpResponseRedirect(reverse_lazy('attendant_page'))
+            elif request.user.user_type == CustomUser.USER_TYPE[2][0]:
+                return HttpResponseRedirect(reverse_lazy('manager_page'))        
     return _wrapped_view
 
 
