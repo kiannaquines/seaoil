@@ -1,6 +1,5 @@
 <div style="position: fixed; bottom: 0; right: 0; z-index: 9999;" class="m-3 stockNotifierContainer">
     {% for stock_check in warehouse_product_stock_check %}
-    <a href="{% url 'warehouseproduct_edit' pk=stock_check.warehouse_product_id %}">
         <div
             class="bs-toast toast fade show bg-danger mb-3"
             role="alert"
@@ -18,13 +17,14 @@
                     aria-label="Close"
                 ></button>
             </div>
-            <div class="toast-body">
-                The item
-                <b>{{ stock_check.warehouse_product_name }}</b> has
-                <b>{{ stock_check.warehouse_product_stock }}</b>
-                stock/s left in the inventory, please replenish your item.
-            </div>
+            <a href="{% url 'warehouseproduct_edit' pk=stock_check.warehouse_product_id %}" class="text-white">
+                <div class="toast-body">
+                    The item
+                    <b>{{ stock_check.warehouse_product_name }}</b> has
+                    <b>{{ stock_check.warehouse_product_stock }}</b>
+                    stock/s left in the inventory, please replenish your item.
+                </div>
+            </a>
         </div>
-    </a>
     {% endfor %}
 </div>
