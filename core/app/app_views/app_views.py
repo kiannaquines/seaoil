@@ -403,9 +403,31 @@ def attendant_sales_invoice_page(request):
     
     context = {
         'sales_invoice': sales_invoice,
+        'type': 'latest',
     }
 
     return render(request, "attendant/invoice_list.html",context)
+
+def all_attendant_sales_invoice_page(request):
+
+    today = timezone.now().date()
+
+    sales_invoice = SaleModel.objects.filter(
+        encoded_by=request.user
+    ).values(
+        'sale_customername', 'encoded_by__username'
+    ).annotate(
+        customer_name=Lower('sale_customername'),
+        count_sale=Count('sale_id'),
+        encoded_by=F('encoded_by__username')
+    ).order_by('customer_name')
+    
+    context = {
+        'sales_invoice': sales_invoice,
+        'type': 'all',
+    }
+
+    return render(request, "attendant/all_invoice_list.html",context)
 
 
 

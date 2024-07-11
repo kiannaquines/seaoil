@@ -49,22 +49,31 @@ def generate_sales_report(request):
     
     return response
 
-def generate_sales_invoice(request,name,encoder):
+def generate_sales_invoice(request,name,encoder,invoice_type):
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'attachment; filename=sale-invoice-{name}.pdf'
     today = timezone.now().date()
-
-    query_invoice = SaleModel.objects.filter(
-        sale_date_added__date=today,
-        sale_customername=name,
-        encoded_by=request.user
-    ).annotate(
-        per_order_total_price=F('sale_quantity') * F('sale_amount')
-    ).all()
+    if invoice_type == 'latest':
+        query_invoice = SaleModel.objects.filter(
+            sale_date_added__date=today,
+            sale_customername=name,
+            encoded_by=request.user
+        ).annotate(
+            per_order_total_price=F('sale_quantity') * F('sale_amount')
+        ).all()
+    else:
+        query_invoice = SaleModel.objects.filter(
+            sale_customername=name,
+            encoded_by=request.user
+        ).annotate(
+            per_order_total_price=F('sale_quantity') * F('sale_amount')
+        ).all()
 
     sum_total_amounts = query_invoice.aggregate(
         sum_total_amount=Sum('per_order_total_price')
     )
+    
+    print("this is the: ", sum_total_amounts['sum_total_amount'])
     encoder_queryset = CustomUser.objects.get(username=encoder)
     tax_calculated = f'{(sum_total_amounts['sum_total_amount'] / 1.12) * 0.12:.2f}'
 

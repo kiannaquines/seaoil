@@ -37,6 +37,7 @@ urlpatterns = [
 
     path('manager/',manager_page,name="manager_page"),
     path('attendant/',attendant_page,name="attendant_page"),
-    path('attendant/sales/invoice',attendant_sales_invoice_page,name="attendant_sales_invoice_page"),
-    path('attendant/sales/invoice/download/<str:name>/<str:encoder>',generate_sales_invoice,name="generate_sales_invoice"),
+    path('attendant/sales/invoice/latest',attendant_sales_invoice_page,name="attendant_sales_invoice_page"),
+    path('attendant/sales/invoice/all',all_attendant_sales_invoice_page,name="all_attendant_sales_invoice_page"),
+    path('attendant/sales/invoice/download/<str:name>/<str:encoder>/<str:invoice_type>',generate_sales_invoice,name="generate_sales_invoice"),
 ]
