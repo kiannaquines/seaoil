@@ -1,17 +1,17 @@
-from django.shortcuts import render
-from django.contrib.auth import authenticate,login,logout
-from django.contrib.auth.decorators import login_required
 from app.models import CustomUser,SaleModel,WarehouseProductModel
 from django.contrib import messages
 from django.http import HttpResponseRedirect,JsonResponse
-from django.contrib.auth.hashers import make_password
-from app.decorators import check_already_loggedin,check_user_permission_based_on_user_type
 from django.db.models import Sum,Count
 from django.db.models.functions import TruncMonth,ExtractYear, ExtractMonth
 from django.utils import timezone
 from datetime import datetime
 from core.settings import MINIMUM
 from django.urls import reverse_lazy
+from django.shortcuts import render
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate,login,logout
+from app.decorators import check_already_loggedin,check_user_permission_based_on_user_type
 
 @login_required(login_url="auth/login/")
 def get_monthly_product_in(request):

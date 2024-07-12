@@ -1,16 +1,16 @@
-from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
 from app.models import *
 from app.forms import *
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.views.generic import DeleteView, UpdateView
 from app.decorators import *
-from django.utils.decorators import method_decorator
 from django.utils import timezone
 from core.settings import MINIMUM
 from django.db.models import Sum,F,Count
 from django.db.models.functions import Lower
+from django.shortcuts import render
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 
 # DONE
 @login_required(login_url="/auth/login/")

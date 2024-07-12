@@ -1,7 +1,7 @@
-from django.urls import path
 from app.views import *
 from app.app_views.app_views import *
 from app.app_views.generate_report_views import *
+from django.urls import path
 
 urlpatterns = [
 	path("",index,name="main_page"),

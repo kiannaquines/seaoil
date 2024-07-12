@@ -1,14 +1,14 @@
+import os
 from xhtml2pdf import pisa
 from datetime import datetime
 from django.http import HttpResponse
-from django.template.loader import get_template
 from django.conf import settings
-from django.views.decorators.http import require_GET
 from app.models import WarehouseProductModel,SaleModel
-import os
 from django.utils import timezone
 from django.db.models import F,Sum
 from app.models import CustomUser
+from django.views.decorators.http import require_GET
+from django.template.loader import get_template
 from app.utils import receipt_number_generator
 from django.contrib.auth.decorators import login_required
 

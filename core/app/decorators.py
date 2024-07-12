@@ -1,8 +1,8 @@
-from django.shortcuts import redirect
 from app.models import CustomUser
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
+from django.shortcuts import redirect
 
 def check_already_loggedin(view_func):
     def _wrapped_view(request,*args,**kwargs):

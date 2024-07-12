@@ -7,5 +7,5 @@
 5. Cashier - DONE
 6. Manager - DONE
 7. Attendant - DONE
-6. Deduct Stock after pull out in warehouse - IN PROGRESS
+6. Deduct Stock after pull out in warehouse - DONE
 7. Sales Invoice - DONE

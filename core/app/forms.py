@@ -1,5 +1,5 @@
-from django.forms import ModelForm
 from app.models import *
+from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 
 class SupplierForm(ModelForm):

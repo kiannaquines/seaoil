@@ -1,6 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
 from datetime import datetime
+from django.contrib.auth.models import AbstractUser
 
 class CategoryModel(models.Model):
     categogry_id = models.AutoField(primary_key=True,unique=True)
