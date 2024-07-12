@@ -476,6 +476,22 @@ class AttendantSaleUpdateView(UpdateView):
 
 
 
+@login_required(login_url="/auth/login/")
+def sales_invoice_pagee(request):
 
+    sales_invoice = SaleModel.objects.values(
+        'sale_customername', 'encoded_by__username'
+    ).annotate(
+        customer_name=Lower('sale_customername'),
+        count_sale=Count('sale_id'),
+        encoded_by=F('encoded_by__username')
+    ).order_by('customer_name')
+    
+    context = {
+        'sales_invoice': sales_invoice,
+    }
+    
+
+    return render(request, "sales_invoice.html",context)
 
 

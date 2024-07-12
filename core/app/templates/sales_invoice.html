@@ -1,0 +1,67 @@
+{% extends './includes/base.html' %}
+{% load static %}
+
+{% block pagecss %}
+<link rel="stylesheet" href="{% static 'assets/vendor/css/datatables.min.css' %}">
+{% endblock pagecss %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        {% include './includes/messages.html' %}
+    </div>
+    <div class="col-md-12">
+        <div class="card">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="card-header">Sales Invoice</h5>
+            </div>
+            <div class="card-content m-3">
+                <div class="table-responsive text-nowrap">
+                    <table class="table" id="MydataTable">
+                        <caption class="ms-3">Sales list</caption>
+                        <thead>
+                            <tr>
+                                <th>Customer Name</th>
+                                <th>Total Order</th>
+                                <th>Encoded By</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for sale in sales_invoice %}
+                            <tr>
+                                <td>{{ sale.sale_customername }}</td>
+                                <td>{{ sale.count_sale }}</td>
+                                <td>{{ sale.encoded_by__username }}</td>
+                                <td>
+                                    <div class="dropdown">
+                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                            <i class="bx bx-dots-vertical-rounded"></i>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" href="{% url 'generate_sales_invoice_admin' name=sale.sale_customername encoder=sale.encoded_by__username %}">
+                                                <i class="bx bx-download me-1"></i>
+                                                Download Invoice
+                                            </a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block pagejs %}
+<script src="{% static 'assets/js/datatables.min.js' %}"></script>
+<script>
+    $(document).ready(function(){
+        $("#MydataTable").DataTable();
+    });
+</script>
+{% endblock pagejs %}

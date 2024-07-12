@@ -27,6 +27,7 @@ urlpatterns = [
     path("product/confirmation/<pk>",ProductDeleteView.as_view(),name="product_delete"),
     path("sale/edit/<pk>",SaleUpdateView.as_view(),name="sale_edit"),
     path("sale/confirmation/<pk>",SaleDeleteView.as_view(),name="sale_delete"),
+    path('sales/invoice/available',sales_invoice_pagee,name="sales_invoice_pagee"),
     path('user/profile/<int:pk>',user_profile,name="user_profile"),
     path('fetchTotalProductIn/',get_monthly_product_in,name="fetch_product_in"),
     path('fetchTotalSalesMonthly/',get_monthly_yearly_sales,name="fetch_total_sales"),
@@ -40,4 +41,6 @@ urlpatterns = [
     path('attendant/sales/invoice/all',all_attendant_sales_invoice_page,name="all_attendant_sales_invoice_page"),
     path('attendant/sales/invoice/download/<str:name>/<str:encoder>/<str:invoice_type>',generate_sales_invoice,name="generate_sales_invoice"),
     path('attendant/sales/edit/<pk>',AttendantSaleUpdateView.as_view(),name="attendant_sale_edit"),
+    path('sales/invoice/download/<str:name>/<str:encoder>',generate_sales_invoice_admin,name="generate_sales_invoice_admin"),
+
 ]
