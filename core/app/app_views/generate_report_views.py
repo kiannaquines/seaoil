@@ -49,6 +49,7 @@ def generate_sales_report(request):
     
     return response
 
+@require_GET
 def generate_sales_invoice(request,name,encoder,invoice_type):
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'attachment; filename=sale-invoice-{name}.pdf'

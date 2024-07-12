@@ -17,7 +17,7 @@ def check_already_loggedin(view_func):
 def check_user_permission_based_on_user_type(view_func):
     def _wrapped_view(request,*args,**kwargs):
         user = request.user
-        if user.user_type == CustomUser.USER_TYPE[0][0]:
+        if user.user_type == CustomUser.USER_TYPE[0][0] or user.user_type == CustomUser.USER_TYPE[2][0]:
             return view_func(request,*args,**kwargs)
         else:
             messages.error(request, 'Sorry, you do not have permission to access the page.',extra_tags="not_enought_permission")
@@ -32,7 +32,7 @@ def check_user_permission_based_on_user_type(view_func):
 def check_if_logged_in(view_func):
     def _wrapped_view(request,*args,**kwargs):
         user = request.user
-        if user.user_type == CustomUser.USER_TYPE[0][0]:
+        if user.is_authenticated:
             return view_func(request,*args,**kwargs)
         else:
             messages.error(request, 'Sorry, you need to be authenticated to access this page.',extra_tags="not_logged_in")

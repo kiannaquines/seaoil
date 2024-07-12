@@ -306,6 +306,18 @@ def sales_index(request):
         
     return render(request,"sales.html",context)
 
+@login_required(login_url="/auth/login/")
+@check_user_permission_based_on_user_type
+def manager_sales_index(request):
+    sales = SaleModel.objects.all()
+
+    context = {
+        'sales':sales,
+    }
+        
+    return render(request,"manager/sales.html",context)
+
+
 # DONE
 @method_decorator(check_if_logged_in,name='dispatch')
 @method_decorator(check_user_permission_based_on_user_type, name='dispatch')
@@ -429,12 +441,18 @@ def all_attendant_sales_invoice_page(request):
 
     return render(request, "attendant/all_invoice_list.html",context)
 
+@method_decorator(check_if_logged_in,name='dispatch')
+class AttendantSaleUpdateView(UpdateView):
+    model = SaleModel
+    form_class = AttendantSalesForm
+    pk_url_kwarg = "pk"
+    template_name = "forms/sale_edit_form.html"
+    success_url = reverse_lazy('attendant_page')
 
-
-
-
-
-
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, 'You have successfully updated sale information, thank you!',extra_tags="edit_success")
+        return response
 
 
 

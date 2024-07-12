@@ -1,0 +1,60 @@
+{% extends 'includes/base.html' %}
+{% load static %}
+
+{% block pagecss %}
+<link rel="stylesheet" href="{% static 'assets/vendor/css/datatables.min.css' %}">
+{% endblock pagecss %}
+
+{% block content %}
+
+{% include './includes/messages.html' %}
+<div class="card">
+    <div class="d-flex justify-content-between align-items-center">
+        <h5 class="card-header">Inventory List</h5>
+        <div class="m-3">
+            <a href="{% url 'generate_inventory_report' %}" class="btn btn-primary">
+                <i class="bx bx-printer me-sm-1"></i>
+                Download Inventory Report
+            </a>
+        </div>
+    </div>
+    <div class="table-responsive text-nowrap">
+        <table class="table" id="MydataTable">
+            <caption class="ms-3">Products that are in inventory</caption>
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Stock</th>
+                    <th>Supplier</th>
+                    <th>Category</th>
+                    <th>Status</th>
+                    <th>Date Added</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for inventory in inventories %}
+                <tr>
+                    <td>
+                        <span class="fw-medium">
+                            {{ inventory.warehouse_product_name }}
+                        </span>
+                    </td>
+                    <td>{{ inventory.warehouse_product_stock }}</td>
+                    <td>{{ inventory.warehouse_product_supplier }}</td>
+                    <td>{{ inventory.warehouse_product_category }}</td>
+                    <td>
+                        <span class="badge bg-label-primary me-1">{{ inventory.warehouse_product_status }}</span>
+                    </td>
+                    <td>{{ inventory.warehouse_product_date_added }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock content %}
+
+{% block pagejs %}
+<script src="{% static 'assets/js/datatables.min.js' %}"></script>
+<script src="{% static 'assets/js/ui-tables.js' %}"></script>
+{% endblock pagejs %}
