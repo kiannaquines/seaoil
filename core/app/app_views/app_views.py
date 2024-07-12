@@ -192,10 +192,30 @@ def products_index(request):
         products_form = ProductForm(request.POST)
         if products_form.is_valid():
             products_form.save()
-            messages.success(request,"You have added new product, thank you!",extra_tags="add_success")
+
+            warehouse_product = products_form.cleaned_data['product_warehouse_product'].warehouse_product_id
+            
+            WarehouseProductModel.objects.filter(
+                warehouse_product_id=warehouse_product
+            ).update(
+                warehouse_product_stock=F('warehouse_product_stock') - products_form.cleaned_data['product_quantity']
+            )
+
+            messages.success(
+                request,
+                "You have pulled out stock product from warehouse, thank you!",
+                extra_tags="add_success"
+            )
+
             return HttpResponseRedirect("/product/")
         else:
-            messages.error(request,"Something went wrong, please try again.",extra_tags="some_error")
+
+            messages.error(
+                request,
+                "Something went wrong, please try again.",
+                extra_tags="some_error"
+            )
+
             return HttpResponseRedirect("/product/")
 
     return render(request,"products.html",context)
@@ -346,8 +366,7 @@ class SaleDeleteView(DeleteView):
         messages.success(self.request, 'You have successfully removed sale information, thank you!',extra_tags="delete_success")
         return response
     
-
-
+@login_required(login_url="/auth/login/")
 def manager_page(request):
     today_date = timezone.now().date()
     last_week = today_date - timezone.timedelta(days=7)
@@ -371,7 +390,7 @@ def manager_page(request):
     }
 
     return render(request, "manager/manager.html",context)
-
+@login_required(login_url="/auth/login/")
 def attendant_page(request):
     sales_form = AttendantSalesForm()
     sales = SaleModel.objects.filter(encoded_by=CustomUser.objects.get(id=request.user.id)).all().order_by('-sale_date_added')
@@ -397,7 +416,7 @@ def attendant_page(request):
 
     return render(request, "attendant/attendant.html",context)
 
-
+@login_required(login_url="/auth/login/")
 def attendant_sales_invoice_page(request):
 
     today = timezone.now().date()
@@ -420,6 +439,7 @@ def attendant_sales_invoice_page(request):
 
     return render(request, "attendant/invoice_list.html",context)
 
+@login_required(login_url="/auth/login/")
 def all_attendant_sales_invoice_page(request):
 
     today = timezone.now().date()

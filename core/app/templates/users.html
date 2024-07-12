@@ -29,6 +29,7 @@
                     <th>Lastname</th>
                     <th>Status</th>
                     <th>Super User</th>
+                    <th>User type</th>
                     <th>Date</th>
                     <th>Actions</th>
                 </tr>
@@ -57,6 +58,7 @@
                         <span class="badge bg-label-danger me-1">User</span>
                         {% endif %}
                     </td>
+                    <td><span class="badge bg-label-primary me-1">{{ user.user_type }}</span></td>
                     <td>{{ user.date_joined }}</td>
                     <td>
                         <div class="dropdown">

@@ -21,7 +21,7 @@ class CustomUser(AbstractUser):
         ('Manager','Manager'),
     )
 
-    user_address = models.TextField(max_length=255)
+    user_address = models.TextField(max_length=255,blank=True,null=True)
     user_type = models.TextField(choices=USER_TYPE,default=USER_TYPE[0][0])
     def __str__(self) -> str:
         return '{} {}'.format(self.first_name, self.last_name)
@@ -31,6 +31,10 @@ class CustomUser(AbstractUser):
         verbose_name_plural = "Users"
 
 class WarehouseProductModel(models.Model):
+    WAREHOUSE_PRODUCT_STATUS = (
+        ('Active','Active'),
+        ('Inactive','Inactive')
+    )
     warehouse_product_id = models.AutoField(primary_key=True,unique=True)
     warehouse_product_name = models.CharField(max_length=255)
     warehouse_product_stock = models.IntegerField()
@@ -38,7 +42,7 @@ class WarehouseProductModel(models.Model):
     warehouse_product_picture = models.ImageField(upload_to="products/")
     warehouse_product_supplier = models.ForeignKey('SupplierModel',on_delete=models.CASCADE)
     warehouse_product_category = models.ForeignKey('CategoryModel',on_delete=models.DO_NOTHING,null=True,blank=True)
-    warehouse_product_status = models.TextField(choices=(('Active','Active'),('Inactive','Inactive')),default=('Active','Active'))
+    warehouse_product_status = models.TextField(choices=WAREHOUSE_PRODUCT_STATUS,default=WAREHOUSE_PRODUCT_STATUS[0][0])
     warehouse_product_date_added = models.DateTimeField(default=datetime.now, blank=True)
 
     def __str__(self) -> str:

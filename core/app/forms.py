@@ -109,6 +109,10 @@ class UserUpdateForm(ModelForm):
         self.fields['first_name'].label = "First Name"
         self.fields['last_name'].widget.attrs.update({'class':'form-control','spellcheck':'false','placeholder':'Last Name'})
         self.fields['last_name'].label = "Last Name"
+
+        self.fields['user_type'].widget.attrs.update({'class':'form-control','spellcheck':'false',})
+        self.fields['user_type'].label = "User Type"
+
         self.fields['email'].widget.attrs.update({'class':'form-control','spellcheck':'false','placeholder':'Email'})
         self.fields['email'].label = "Email"
         self.fields['user_address'].widget.attrs.update({'class':'form-control','spellcheck':'false','placeholder':'Address','rows':'2'})
@@ -119,7 +123,7 @@ class UserUpdateForm(ModelForm):
 
     class Meta:
         model = CustomUser
-        fields = ['username','first_name','last_name','email','user_address','is_active','is_staff','is_superuser']
+        fields = ['username','first_name','last_name','email','user_address','user_type','is_active','is_staff','is_superuser']
         exclude = ['password1','password2',]
 
 

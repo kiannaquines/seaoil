@@ -10,8 +10,10 @@ from django.utils import timezone
 from django.db.models import F,Sum
 from app.models import CustomUser
 from app.utils import receipt_number_generator
+from django.contrib.auth.decorators import login_required
 
 @require_GET
+@login_required(login_url="/auth/login/")
 def generate_inventory_report(request):
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'attachment; filename="seaoil-warehouse-inventory-report-{datetime.now()}.pdf"'
@@ -31,6 +33,7 @@ def generate_inventory_report(request):
     return response
 
 @require_GET
+@login_required(login_url="/auth/login/")
 def generate_sales_report(request):
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'attachment; filename="seaoil-sales-report-{datetime.now()}.pdf"'
@@ -50,6 +53,7 @@ def generate_sales_report(request):
     return response
 
 @require_GET
+@login_required(login_url="/auth/login/")
 def generate_sales_invoice(request,name,encoder,invoice_type):
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'attachment; filename=sale-invoice-{name}.pdf'
