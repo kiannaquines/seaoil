@@ -1,4 +1,4 @@
-## Seaoil Inventory and Point of Sale System
+## Seaoil Inventory and Point of Sale Software
 
 ### System Sample Screenshots
 ![image](https://github.com/user-attachments/assets/f64a062c-e243-4ff0-a47d-a2efc3811bfa)
