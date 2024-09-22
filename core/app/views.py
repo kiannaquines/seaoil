@@ -1,4 +1,4 @@
-from app.models import CustomUser, SaleModel, WarehouseProductModel, RequestModel
+from app.models import CustomUser, SaleModel, WarehouseProductModel, InvoiceRequestModel
 from django.contrib import messages
 from django.http import HttpResponseRedirect, JsonResponse
 from django.db.models import Sum, Count
@@ -15,6 +15,8 @@ from app.decorators import (
     check_already_loggedin,
     check_user_permission_based_on_user_type,
 )
+
+from app.forms import RequestInvoiceForm
 
 
 @login_required(login_url="/auth/login/")
@@ -77,7 +79,7 @@ def get_monthly_yearly_sales(request):
 def index(request):
     today_date = timezone.now().date()
     last_week = today_date - timezone.timedelta(days=7)
-    total_sale = SaleModel.objects.aggregate(sale=Sum("sale_amount"))
+    # total_sale = SaleModel.objects.aggregate(sale=Sum("sale_amount"))
     warehouse_product_count = WarehouseProductModel.objects.all().count()
     product_count_today = (
         WarehouseProductModel.objects.filter(
@@ -96,7 +98,7 @@ def index(request):
     ).all()
 
     context = {
-        "total_sale": total_sale,
+        # "total_sale": total_sale,
         "total_products_count": warehouse_product_count,
         "todays_product_count": product_count_today,
         "warehouseproduct_count": warehouse_product_count,
@@ -216,47 +218,54 @@ def user_update(request, pk):
 @login_required(login_url="/auth/login/")
 def request_list(request):
 	context = {}
-	context["request_list"] = RequestModel.objects.all()
+	context["request_list"] = InvoiceRequestModel.objects.all()
 	context["warehouse_product_stock_check"] = WarehouseProductModel.objects.filter(warehouse_product_stock__lt=MINIMUM).all()
 	return render(request, "request.html", context)
 
+# DONE
 @login_required(login_url="/auth/login/")
 def approve_request(request):
     if request.method == "POST":
         request_id = request.POST.get("request_id")
 
-        request_approve = RequestModel.objects.filter(request_id=request_id)
+        request_approve = InvoiceRequestModel.objects.filter(request_id=request_id)
         request_approve.update(request_status=True)
         messages.success(request, "Yahooo, you approved the invoice download request successfully.")
         return HttpResponseRedirect(reverse_lazy("request_list"))
     else:
         return HttpResponseRedirect(reverse_lazy("request_list"))
-    
 
-# Attendant
-# DONE
+# DONE    
 @login_required(login_url="/auth/login/")
 def attendant_request_list(request):
     context = {
-        'request_list' : RequestModel.objects.filter(request_by=request.user).all(),
+        'form': RequestInvoiceForm(),
+        'request_list' : InvoiceRequestModel.objects.filter(request_by=request.user).all(),
         'type': 'all'
     }
 
-    return render(request, "attendant/request_list.html", context)
-
-# DONE
-@login_required(login_url="/auth/login/")
-def attendant_request_invoice(request):
     if request.method == "POST":
-        invoice_request = RequestModel(
-            request_order=SaleModel.objects.get(sale_id=request.POST.get("sale_id")),
-            request_by=request.user,
-        )
+        form = RequestInvoiceForm(request.POST)
 
-        invoice_request.save()
-        messages.success(
-            request,
-            "You have successfully request a invoice download, please wait to approve your request.",
-            extra_tags="add_success",
-        )
-        return HttpResponseRedirect(reverse_lazy("all_attendant_sales_invoice_page"))
+        if form.is_valid():
+            data = form.cleaned_data
+            request_obj = InvoiceRequestModel(
+                customer_name = data['customer_name'],
+                request_by=request.user,
+            )
+            request_obj.save()
+            request_obj.request_order.set(data['request_order'])
+
+            for sale in data['request_order']:
+                sale.status = True
+                sale.save()
+
+                print(sale)
+            
+            messages.success(request, "Yahooo, you requested for an invoice download successfully.",extra_tags="add_success")
+        else:
+            messages.error(request, "Oops, something went wrong. Please try again.",extra_tags="some_error")
+
+        return HttpResponseRedirect(reverse_lazy('attendant_request_list'))
+
+    return render(request, "attendant/request_list.html", context)

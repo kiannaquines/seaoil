@@ -65,17 +65,13 @@ class SalesForm(ModelForm):
         self.fields['sale_product'].widget.attrs.update({'class':'form-control','spellcheck':'false'})
         self.fields['sale_product'].label = "Product"
         self.fields['sale_quantity'].widget.attrs.update({'class':'form-control','spellcheck':'false','placeholder':'Quantity'})
-        self.fields['sale_quantity'].label = "Quantity"
-        self.fields['sale_customername'].widget.attrs.update({'class':'form-control','spellcheck':'false','placeholder':'Customer Name'})
-        self.fields['sale_customername'].label = "Customer Name"
-        self.fields['sale_amount'].widget.attrs.update({'class':'form-control','spellcheck':'false','placeholder':'Amount'})
-        self.fields['sale_amount'].label = "Amount"
+        self.fields['sale_quantity'].label = "Quantity"        
         self.fields['encoded_by'].widget.attrs.update({'class':'form-control','spellcheck':'false'})
         self.fields['encoded_by'].label = "Encoded By"
     
     class Meta:
         model = SaleModel
-        fields = ['sale_product','sale_quantity','sale_customername','sale_amount','encoded_by']
+        fields = ['sale_product','sale_quantity','encoded_by']
         
 class UserRegistrationForm(UserCreationForm):
     def __init__(self,*args,**kwargs):
@@ -134,14 +130,28 @@ class AttendantSalesForm(ModelForm):
         self.fields['sale_product'].label = "Product"
         self.fields['sale_quantity'].widget.attrs.update({'class':'form-control','spellcheck':'false','placeholder':'Quantity'})
         self.fields['sale_quantity'].label = "Quantity"
-        self.fields['sale_customername'].widget.attrs.update({'class':'form-control','spellcheck':'false','placeholder':'Customer Name'})
-        self.fields['sale_customername'].label = "Customer Name"
-        self.fields['sale_amount'].widget.attrs.update({'class':'form-control','spellcheck':'false','placeholder':'Amount'})
-        self.fields['sale_amount'].label = "Amount"
-    
+       
     class Meta:
         model = SaleModel
-        fields = ['sale_product','sale_quantity','sale_customername','sale_amount']
+        fields = ['sale_product','sale_quantity',]
+
+
+class RequestInvoiceForm(ModelForm):
+    def __init__(self,*args,**kwargs):
+        super(RequestInvoiceForm,self).__init__(*args,**kwargs)
+        self.fields['customer_name'].widget.attrs.update({'class':'form-control','spellcheck':'false','placeholder':'Customer Name'})
+        self.fields['customer_name'].label = "Customer Name"
+
+        self.fields['request_order'].queryset = SaleModel.objects.filter(
+            status=False
+        )
+
+        self.fields['request_order'].widget.attrs.update({'class':'form-control','spellcheck':'false'})
+        self.fields['request_order'].label = "Sales Order"
+
+    class Meta:
+        model = InvoiceRequestModel
+        fields = ['customer_name','request_order',]
 
 
 

@@ -58,6 +58,7 @@ class ProductModel(models.Model):
     product_warehouse_product = models.ForeignKey('WarehouseProductModel',on_delete=models.CASCADE)
     product_price = models.FloatField()
     product_quantity = models.IntegerField()
+    product_sold = models.IntegerField(default=0)
     product_date_added = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
@@ -82,27 +83,28 @@ class SupplierModel(models.Model):
         verbose_name_plural = "Suppliers"
 
 class SaleModel(models.Model):
+    
     sale_id = models.AutoField(primary_key=True,unique=True)
     sale_product = models.ForeignKey('ProductModel',on_delete=models.CASCADE)
-    sale_amount = models.FloatField()
     sale_quantity = models.IntegerField()
-    sale_customername = models.CharField(max_length=255)
     sale_date = models.DateTimeField(default=datetime.now, blank=True)
     encoded_by = models.ForeignKey('CustomUser',on_delete=models.DO_NOTHING)
+    status = models.BooleanField(default=False)
     sale_date_added = models.DateTimeField(default=datetime.now, blank=True)
-
 
     def __str__(self) -> str:
         return self.sale_product.product_warehouse_product.warehouse_product_name
     
     class Meta:
+
         verbose_name = "Sale"
         verbose_name_plural = "Sales"
 
-class RequestModel(models.Model):
+class InvoiceRequestModel(models.Model):
     request_id = models.AutoField(primary_key=True, unique=True)
+    customer_name = models.CharField(max_length=255)
     request_by = models.ForeignKey('CustomUser',on_delete=models.DO_NOTHING)
-    request_order = models.ForeignKey('SaleModel',on_delete=models.CASCADE, null=True, blank=True)
+    request_order = models.ManyToManyField('SaleModel')
     request_status = models.BooleanField(default=False)
     requested_date = models.DateTimeField(default=datetime.now, blank=True)
 
@@ -110,5 +112,5 @@ class RequestModel(models.Model):
         return self.request_by.username
     
     class Meta:
-        verbose_name = "Request"
-        verbose_name_plural = "Requests"
+        verbose_name = "Invoice Request"
+        verbose_name_plural = "Invoice Requests"

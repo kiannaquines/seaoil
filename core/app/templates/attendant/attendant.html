@@ -25,8 +25,6 @@
                                 <th>Product Name</th>
                                 <th>Product Image</th>
                                 <th>Product Quantity</th>
-                                <th>Amount</th>
-                                <th>Customer Name</th>
                                 <th>Encoded By</th>
                                 <th>Date Encoded</th>
                                 <th>Actions</th>
@@ -44,8 +42,6 @@
                                     <img src="{{ sale.sale_product.product_warehouse_product.warehouse_product_picture.url }}" alt="{{ sale.sale_product.product_warehouse_product.warehouse_product_name }}" width="70" height="70">
                                 </td>
                                 <td>{{ sale.sale_quantity }}</td>
-                                <td>{{ sale.sale_amount }}</td>
-                                <td>{{ sale.sale_customername }}</td>
                                 <td>{{ sale.encoded_by }}</td>
                                 <td>{{ sale.sale_date_added }}</td>
                                 <td>

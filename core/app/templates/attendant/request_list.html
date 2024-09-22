@@ -7,10 +7,12 @@
 {% endblock pagecss %}
 
 {% block content %}
+{% include './../includes/messages.html' %}
+<div class="d-flex justify-content-between align-items-center mb-2">
+    <h4>Invoice Request</h4>
+    <button data-bs-toggle="modal" data-bs-target="#addModal" class="btn btn-primary">Add Request Invoice</button>
+</div>
 <div class="card">
-    <div class="d-flex justify-content-between align-items-center">
-        <h5 class="card-header">My Sales Invoice Request</h5>
-    </div>
     <div class="table-responsive text-nowrap">
         <table class="table" id="MydataTable">
             <caption class="ms-3">List of request</caption>
@@ -32,23 +34,31 @@
                             {{ request_sale.request_by.username }}
                         </span>
                     </td>
-                    <td>{{ request_sale.request_order.sale_customername }}</td>
-                    <td>{{ request_sale.request_order.sale_product.product_warehouse_product.warehouse_product_name }}</td>
+                    <td>{{ request_sale.customer_name }}</td>
+                    <td>
+                        <ul>
+                        {% for order in request_sale.request_order.all %}
+                            <li>
+                                {{ order.sale_product.product_warehouse_product.warehouse_product_name }}
+                            </li>
+                        {% endfor %}
+                        </ul>
+                    </td>
                     <td>
                         {% if request_sale.request_status %}
                             <span class="badge bg-label-primary me-1">
-                                Approved
+                                Invoiced
                             </span>
                         {% else %}
                             <span class="badge bg-label-danger me-1">
-                                Need Approval
+                                Processing
                             </span>
                         {% endif %}
                     </td>
                     <td>{{ request_sale.requested_date }}</td>
                     <td>
                         {% if request_sale.request_status %}
-                            <a href="{% url 'generate_sales_invoice' name=request_sale.request_order.sale_customername encoder=request_sale.request_order.encoded_by.username invoice_type=type %}" class="btn btn-primary">
+                            <a href="#" class="btn btn-primary">
                                 Download
                             </a>
                         {% else %}
@@ -63,6 +73,7 @@
         </table>
     </div>
 </div>
+{% include './add_request.html' %}
 {% endblock content %}
 
 {% block pagejs %}

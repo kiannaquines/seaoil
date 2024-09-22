@@ -1,6 +1,6 @@
 from app.models import *
 from app.forms import *
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
 from django.views.generic import DeleteView, UpdateView
 from app.decorators import *
@@ -391,7 +391,7 @@ class SaleDeleteView(DeleteView):
 def manager_page(request):
     today_date = timezone.now().date()
     last_week = today_date - timezone.timedelta(days=7)
-    total_sale = SaleModel.objects.aggregate(sale=Sum('sale_amount'))
+    # total_sale = SaleModel.objects.aggregate(sale=Sum('sale_amount'))
     warehouse_product_count = WarehouseProductModel.objects.all().count()
     product_count_today = WarehouseProductModel.objects.filter(warehouse_product_date_added__date=today_date).all().count()
     latest_transactions = SaleModel.objects.all().order_by('-sale_date_added')[:7]
@@ -401,7 +401,7 @@ def manager_page(request):
 
 
     context = {
-        'total_sale':total_sale,
+        # 'total_sale':total_sale,
         'total_products_count':warehouse_product_count,
         'todays_product_count':product_count_today,
         'warehouseproduct_count':warehouse_product_count,
@@ -411,6 +411,8 @@ def manager_page(request):
     }
 
     return render(request, "manager/manager.html",context)
+
+
 @login_required(login_url="/auth/login/")
 def attendant_page(request):
     sales_form = AttendantSalesForm()
@@ -423,11 +425,19 @@ def attendant_page(request):
 
     if request.method == "POST":
         sales_form = AttendantSalesForm(request.POST)
+        sales_quantity = int(request.POST.get('sale_quantity'))
 
         if sales_form.is_valid():
+
             sale = sales_form.save(commit=False)
             sale.encoded_by = request.user
             sale.save()
+
+            current_sold_obj = ProductModel.objects.get(product_id=request.POST.get('sale_product'))
+            current_sold_obj.product_sold = current_sold_obj.product_sold + sales_quantity
+            current_sold_obj.product_quantity = current_sold_obj.product_quantity - sales_quantity
+            current_sold_obj.save()
+
             messages.success(request,"You have added new sale, thank you!",extra_tags="add_success")
             return HttpResponseRedirect("/attendant/")
         else:
@@ -445,15 +455,7 @@ def attendant_sales_invoice_page(request):
     sales_invoice = SaleModel.objects.filter(
         sale_date_added__date=today,
         encoded_by=request.user
-    ).values(
-        'sale_customername', 'encoded_by__username',
-    ).annotate(
-        customer_name=Lower('sale_customername'),
-        count_sale=Count('sale_id'),
-        encoded_by=F('encoded_by__username'),
-        img=F('sale_product__product_warehouse_product__warehouse_product_picture'),
-        sale_quantity=F('sale_quantity')
-    ).order_by('customer_name')
+    )
     
     context = {
         'sales_invoice': sales_invoice,
@@ -461,31 +463,6 @@ def attendant_sales_invoice_page(request):
     }
 
     return render(request, "attendant/invoice_list.html",context)
-
-@login_required(login_url="/auth/login/")
-def all_attendant_sales_invoice_page(request):
-
-    today = timezone.now().date()
-
-    sales_invoice = SaleModel.objects.filter(
-        encoded_by=request.user
-    ).values(
-        'sale_customername', 'encoded_by__username',
-    ).annotate(
-        sale_id=F('sale_id'),
-        customer_name=Lower('sale_customername'),
-        count_sale=Count('sale_id'),
-        encoded_by=F('encoded_by__username'),
-        img=F('sale_product__product_warehouse_product__warehouse_product_picture'),
-        sale_quantity=F('sale_quantity')
-    ).order_by('customer_name')
-    
-    context = {
-        'sales_invoice': sales_invoice,
-        'type': 'all',
-    }
-
-    return render(request, "attendant/all_invoice_list.html",context)
 
 @method_decorator(check_if_logged_in,name='dispatch')
 class AttendantSaleUpdateView(UpdateView):
@@ -501,17 +478,10 @@ class AttendantSaleUpdateView(UpdateView):
         return response
 
 
-
 @login_required(login_url="/auth/login/")
 def sales_invoice_pagee(request):
 
-    sales_invoice = SaleModel.objects.values(
-        'sale_customername', 'encoded_by__username'
-    ).annotate(
-        customer_name=Lower('sale_customername'),
-        count_sale=Count('sale_id'),
-        encoded_by=F('encoded_by__username')
-    ).order_by('customer_name')
+    sales_invoice = InvoiceRequestModel.objects.all()
     
     warehouse_product_stock_check = WarehouseProductModel.objects.filter(warehouse_product_stock__lt=MINIMUM).all()
 

@@ -24,9 +24,11 @@
             <thead>
                 <tr>
                     <th>Product Name</th>
+                    <th>Product Image</th>
                     <th>Category</th>
                     <th>Price</th>
                     <th>Instock</th>
+                    <th>Sold Stock</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -38,12 +40,16 @@
                             {{ product.product_warehouse_product.warehouse_product_name }}
                         </span>
                     </td>
+                    <td>
+                        <img src="{{ product.product_warehouse_product.warehouse_product_picture.url }}" alt="{{ product.product_warehouse_product.warehouse_product_name }}" width="70" height="70" class="img-fluid">
+                    </td>
                     <td>{{ product.product_warehouse_product.warehouse_product_category }}</td>
                     <td>{{ product.product_price }}</td>
                     <td>
-                        <span class="badge bg-label-primary me-1">
-                            {{ product.product_quantity }}
-                        </span>
+                        {{ product.product_quantity }}
+                    </td>
+                    <td>
+                        {{ product.product_sold }}
                     </td>
                     <td>
                         <div class="dropdown">

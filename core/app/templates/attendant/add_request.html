@@ -1,0 +1,18 @@
+{% extends './../includes/add_modal.html' %}
+
+{% block modalTitle %}Request Invoice{% endblock %}
+
+{% block modal %}
+    {% for input in form %}
+        <div class="row">
+            <div class="col mb-3">
+                <label 
+                    for="{{ input.id_for_label }}"
+                    class="form-label mb-1 mt-1">
+                    {{ input.label }}
+                </label>
+                {{ input }}
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}
