@@ -50,3 +50,9 @@ admin.site.register(SupplierModel,AdminSupplier)
 admin.site.register(WarehouseProductModel,AdminWarehouseProduct)
 admin.site.register(SaleModel,SalesAdmin)
 admin.site.register(CategoryModel)
+
+
+class RequestAdmin(admin.ModelAdmin):
+    list_display = ("request_by","request_order","request_status","requested_date")
+
+admin.site.register(RequestModel,RequestAdmin)

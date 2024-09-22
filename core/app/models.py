@@ -98,3 +98,17 @@ class SaleModel(models.Model):
     class Meta:
         verbose_name = "Sale"
         verbose_name_plural = "Sales"
+
+class RequestModel(models.Model):
+    request_id = models.AutoField(primary_key=True, unique=True)
+    request_by = models.ForeignKey('CustomUser',on_delete=models.DO_NOTHING)
+    request_order = models.ForeignKey('SaleModel',on_delete=models.CASCADE, null=True, blank=True)
+    request_status = models.BooleanField(default=False)
+    requested_date = models.DateTimeField(default=datetime.now, blank=True)
+
+    def __str__(self) -> str:
+        return self.request_by.username
+    
+    class Meta:
+        verbose_name = "Request"
+        verbose_name_plural = "Requests"

@@ -42,5 +42,4 @@ urlpatterns = [
     path('attendant/sales/invoice/download/<str:name>/<str:encoder>/<str:invoice_type>',generate_sales_invoice,name="generate_sales_invoice"),
     path('attendant/sales/edit/<pk>',AttendantSaleUpdateView.as_view(),name="attendant_sale_edit"),
     path('sales/invoice/download/<str:name>/<str:encoder>',generate_sales_invoice_admin,name="generate_sales_invoice_admin"),
-
 ]

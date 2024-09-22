@@ -54,6 +54,28 @@
         <script src="{% static 'assets/vendor/js/menu.js' %}"></script>
         <script src="{% static 'assets/js/main.js' %}"></script>
         <script src="{% static 'assets/js/ui-toasts.js' %}"></script>
+        <script>
+            function updateDateTime() {
+                const dateTimeElement = document.getElementById('datetime-display');
+        
+                const options = { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric', 
+                    hour: 'numeric', 
+                    minute: 'numeric', 
+                    second: 'numeric',
+                    hour12: true 
+                };
+        
+                const now = new Date();
+                const formattedDateTime = now.toLocaleString('en-US', options);
+                dateTimeElement.textContent = formattedDateTime;
+            }
+        
+            updateDateTime();
+            setInterval(updateDateTime, 1000);
+        </script>
         {% block pagejs %}
     {% endblock pagejs %}
     </body>

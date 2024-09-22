@@ -23,6 +23,8 @@
                             <tr>
                                 <th>Customer Name</th>
                                 <th>Total Order</th>
+                                <th>Product Image</th>
+                                <th>Product Quantity</th>
                                 <th>Encoded By</th>
                                 <th>Actions</th>
                             </tr>
@@ -31,8 +33,12 @@
                             {% for sale in sales_invoice %}
                             <tr>
                                 <td>{{ sale.sale_customername }}</td>
+                                <td>{{ sale.sale_quantity }}</td>
+                                <td>
+                                    <img src="/media/{{ sale.img }}" alt="{{ sale.sale_customername }}" width="70" height="70">
+                                </td>
                                 <td>{{ sale.count_sale }}</td>
-                                <td>{{ sale.encoded_by__username }}</td>
+                                <td>{{ sale.encoded_by }}</td>
                                 <td>
                                     <div class="dropdown">
                                         <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">

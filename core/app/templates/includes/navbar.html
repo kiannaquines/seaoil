@@ -8,19 +8,53 @@
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
         <div class="navbar-nav align-items-center">
             <div class="nav-item d-flex align-items-center">
-                <i class="bx bx-search fs-4 lh-0"></i>
-                <input
-                    type="text"
-                    class="form-control border-0 shadow-none ps-1 ps-sm-2"
-                    placeholder="Search..."
-                    aria-label="Search..."
-                >
+                <span id="datetime-display" style="font-size: 18px; font-weight: 500;"></span>
             </div>
         </div>
         <ul class="navbar-nav flex-row align-items-center ms-auto">
+            {% if request.user.is_superuser %}
             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
-                    <div class="avatar avatar-online">
+                    <i class='bx bx-bell' style="font-size: 1.5rem;"></i>
+                    {% if warehouse_product_stock_check %}
+                        <span class="notification-marker" style="position: absolute; bottom: 1; right: 0; width: 8px; height: 8px; background-color: red; border-radius: 50%;"></span>
+                    {% endif %}
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" style="max-width: 500px; word-wrap: break-word; white-space: normal;">
+                    <li style="cursor: pointer;">
+                        <a class="dropdown-item">
+                            <span class="align-middle" style="font-size: 18px; font-weight: 500;">Notifications</span>
+                        </a>
+                    </li>
+                    {% if warehouse_product_stock_check %}
+                    {% for stock_check in warehouse_product_stock_check %}
+                    <li style="cursor: pointer;">
+                        <a href="{% url 'warehouseproduct_edit' pk=stock_check.warehouse_product_id %}" class="dropdown-item" style="display: flex; align-items: center;">
+                            <span class="align-middle" style="display: block; max-width: 350px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                The item
+                                <b>{{ stock_check.warehouse_product_name }}</b> has
+                                <b>{{ stock_check.warehouse_product_stock }}</b>
+                                stock/s left in the warehouse, please replenish your stock.
+                            </span>
+                            <i class='bx bx-dots-vertical-rounded'></i>
+                        </a>
+                    </li>
+                    {% endfor %}
+                    {% else %}
+                    <li style="cursor: pointer;"></li>
+                        <a class="dropdown-item" style="display: flex; align-items: center;">
+                            <span class="align-middle" style="display: block; max-width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                              Your notification box is still empty......
+                            </span>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </li>
+            {% endif %}
+            <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+                    <div class="avatar">
                         <img src="{% static 'assets/img/avatars/avatar.jpg' %}" alt class="w-px-40 h-auto rounded-circle">
                     </div>
                 </a>

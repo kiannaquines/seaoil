@@ -18,10 +18,13 @@ from django.contrib.auth.decorators import login_required
 def supplier_index(request):
     suppliers = SupplierModel.objects.all()
     supplier_form = SupplierForm()
+    warehouse_product_stock_check = WarehouseProductModel.objects.filter(warehouse_product_stock__lt=MINIMUM).all()
+
 
     context = {
         'suppliers':suppliers,
         'form': supplier_form,
+        'warehouse_product_stock_check': warehouse_product_stock_check,
     }
 
     if request.method == "POST":
@@ -68,10 +71,12 @@ class SupplierDeleteView(DeleteView):
 def users_index(request):
     users = CustomUser.objects.all()
     user_form = UserRegistrationForm()
+    warehouse_product_stock_check = WarehouseProductModel.objects.filter(warehouse_product_stock__lt=MINIMUM).all()
 
     context = {
         'users': users,
         'register_form': user_form,
+        'warehouse_product_stock_check': warehouse_product_stock_check,
     }
 
     if request.method == "POST":
@@ -123,9 +128,12 @@ class DeleteUserView(DeleteView):
 def category_index(request):
     categories = CategoryModel.objects.all()
     category_form = CategoryForm()
+    warehouse_product_stock_check = WarehouseProductModel.objects.filter(warehouse_product_stock__lt=MINIMUM).all()
+
     context = {
         'categories':categories,
         'category_form': category_form,
+        'warehouse_product_stock_check': warehouse_product_stock_check,
     }
 
     if request.method == "POST":
@@ -170,8 +178,11 @@ class CategoryDeleteView(DeleteView):
 @check_user_permission_based_on_user_type
 def inventory_index(request):
     inventories = WarehouseProductModel.objects.all()
+    warehouse_product_stock_check = WarehouseProductModel.objects.filter(warehouse_product_stock__lt=MINIMUM).all()
+
     context = {
         'inventories':inventories,
+        'warehouse_product_stock_check': warehouse_product_stock_check,
     }
 
     return render(request,"inventory.html",context)
@@ -182,10 +193,13 @@ def inventory_index(request):
 def products_index(request):
     products = ProductModel.objects.all()
     products_form = ProductForm()
+    warehouse_product_stock_check = WarehouseProductModel.objects.filter(warehouse_product_stock__lt=MINIMUM).all()
+
 
     context = {
         'products':products,
         'products_form':products_form,
+        'warehouse_product_stock_check': warehouse_product_stock_check,
     }
 
     if request.method == "POST":
@@ -255,10 +269,13 @@ class ProductDeleteView(DeleteView):
 def warehouseproducts_index(request):
     warehouseproducts = WarehouseProductModel.objects.all()
     warehouseproducts_form = WarehouseProductForm()
+    warehouse_product_stock_check = WarehouseProductModel.objects.filter(warehouse_product_stock__lt=MINIMUM).all()
+
 
     context = {
         'warehouseproducts':warehouseproducts,
         'warehouseproducts_form': warehouseproducts_form,
+        'warehouse_product_stock_check': warehouse_product_stock_check,
     }
 
     if request.method == "POST":
@@ -308,10 +325,12 @@ class WarehouseProductDeleteView(DeleteView):
 def sales_index(request):
     sales = SaleModel.objects.all()
     sale_form = SalesForm()
+    warehouse_product_stock_check = WarehouseProductModel.objects.filter(warehouse_product_stock__lt=MINIMUM).all()
 
     context = {
         'sales':sales,
         'form_sales':sale_form,
+        'warehouse_product_stock_check': warehouse_product_stock_check,
     }
 
     if request.method == "POST":
@@ -330,9 +349,11 @@ def sales_index(request):
 @check_user_permission_based_on_user_type
 def manager_sales_index(request):
     sales = SaleModel.objects.all()
+    warehouse_product_stock_check = WarehouseProductModel.objects.filter(warehouse_product_stock__lt=MINIMUM).all()
 
     context = {
         'sales':sales,
+        'warehouse_product_stock_check': warehouse_product_stock_check,
     }
         
     return render(request,"manager/sales.html",context)
@@ -425,11 +446,13 @@ def attendant_sales_invoice_page(request):
         sale_date_added__date=today,
         encoded_by=request.user
     ).values(
-        'sale_customername', 'encoded_by__username'
+        'sale_customername', 'encoded_by__username',
     ).annotate(
         customer_name=Lower('sale_customername'),
         count_sale=Count('sale_id'),
-        encoded_by=F('encoded_by__username')
+        encoded_by=F('encoded_by__username'),
+        img=F('sale_product__product_warehouse_product__warehouse_product_picture'),
+        sale_quantity=F('sale_quantity')
     ).order_by('customer_name')
     
     context = {
@@ -447,11 +470,13 @@ def all_attendant_sales_invoice_page(request):
     sales_invoice = SaleModel.objects.filter(
         encoded_by=request.user
     ).values(
-        'sale_customername', 'encoded_by__username'
+        'sale_customername', 'encoded_by__username',
     ).annotate(
         customer_name=Lower('sale_customername'),
         count_sale=Count('sale_id'),
-        encoded_by=F('encoded_by__username')
+        encoded_by=F('encoded_by__username'),
+        img=F('sale_product__product_warehouse_product__warehouse_product_picture'),
+        sale_quantity=F('sale_quantity')
     ).order_by('customer_name')
     
     context = {
@@ -487,8 +512,11 @@ def sales_invoice_pagee(request):
         encoded_by=F('encoded_by__username')
     ).order_by('customer_name')
     
+    warehouse_product_stock_check = WarehouseProductModel.objects.filter(warehouse_product_stock__lt=MINIMUM).all()
+
     context = {
         'sales_invoice': sales_invoice,
+        'warehouse_product_stock_check': warehouse_product_stock_check,
     }
     
 
