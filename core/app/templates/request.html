@@ -19,45 +19,37 @@
             <thead>
                 <tr>
                     <th>Request by</th>
+                    <th>Customer</th>
                     <th>Order</th>
                     <th>Status</th>
                     <th>Date</th>
-                    <th>Actions</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-                {% for user in users %}
+                {% for request in request_list %}
                 <tr>
                     <td>
                         <span class="fw-medium">
-                            {{ user.username }}
+                            {{ request.request_by.username }}
                         </span>
                     </td>
-                    <td>{{ user.first_name }}</td>
-                    <td>{{ user.last_name }}</td>
+                    <td>{{ request.request_order.sale_customername }}</td>
+                    <td>{{ request.request_order.sale_product.product_warehouse_product.warehouse_product_name }}</td>
                     <td>
-                        {% if user.is_active == 1 %}
-                        <span class="badge bg-label-primary me-1">Active</span>
-                        {% else %}
-                        <span class="badge bg-label-danger me-1">Inactive</span>
-                        {% endif %}
+                        <span class="badge bg-label-{{ request.request_status|yesno:'primary,danger' }} me-1">
+                            {{ request.request_status|yesno:'Approved,Need Approval' }}
+                        </span>
                     </td>
+                    <td>{{ request.requested_date }}</td>
                     <td>
-                        <div class="dropdown">
-                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                <i class="bx bx-dots-vertical-rounded"></i>
+                        <form action="{% url 'approve_request' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="request_id" value="{{ request.request_id }}">
+                            <button type="submit" class="btn btn-{{ request.request_status|yesno:'primary,danger' }}">
+                                {{ request.request_status|yesno:'Approved,Need Approval' }}
                             </button>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="{% url 'user_edit' pk=user.id %}">
-                                    <i class="bx bx-edit-alt me-1"></i>
-                                    Edit
-                                </a>
-                                <a class="dropdown-item" href="{% url 'user_delete' pk=user.id %}">
-                                    <i class="bx bx-trash me-1"></i>
-                                    Delete
-                                </a>
-                            </div>
-                        </div>
+                        </form>
                     </td>
                 </tr>
                 {% endfor %}

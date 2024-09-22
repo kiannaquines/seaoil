@@ -472,6 +472,7 @@ def all_attendant_sales_invoice_page(request):
     ).values(
         'sale_customername', 'encoded_by__username',
     ).annotate(
+        sale_id=F('sale_id'),
         customer_name=Lower('sale_customername'),
         count_sale=Count('sale_id'),
         encoded_by=F('encoded_by__username'),

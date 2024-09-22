@@ -35,21 +35,19 @@
                                 <td>{{ sale.sale_customername }}</td>
                                 <td>{{ sale.sale_quantity }}</td>
                                 <td>
-                                    <img src="/media/{{ sale.img }}" alt="{{ sale.sale_customername }}" width="70" height="70">
+                                    <img src="/media/{{ sale.img }}" alt="{{ sale.sale_customername }}" class="img-fluid" width="70" height="70">
                                 </td>
                                 <td>{{ sale.count_sale }}</td>
                                 <td>{{ sale.encoded_by__username }}</td>
                                 <td>
                                     <div class="dropdown">
-                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                            <i class="bx bx-dots-vertical-rounded"></i>
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="{% url 'generate_sales_invoice' name=sale.sale_customername encoder=sale.encoded_by__username invoice_type=type %}">
-                                                <i class="bx bx-download me-1"></i>
-                                                Download Invoice
-                                            </a>
-                                        </div>
+                                        <form action="{% url 'attendant_request_invoice' %}" method="POST">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="sale_id" value="{{ sale.sale_id }}">
+                                            <button type="submit" class="btn btn-primary">
+                                                Request Invoice
+                                            </button>
+                                        </form>
                                     </div>
                                 </td>
                             </tr>
