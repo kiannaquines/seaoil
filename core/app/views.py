@@ -1,8 +1,8 @@
 from app.models import CustomUser, SaleModel, WarehouseProductModel, InvoiceRequestModel
 from django.contrib import messages
 from django.http import HttpResponseRedirect, JsonResponse
-from django.db.models import Sum, Count
-from django.db.models.functions import TruncMonth, ExtractYear, ExtractMonth
+from django.db.models import Sum, Count, F
+from django.db.models.functions import TruncMonth, ExtractYear, ExtractMonth, Round
 from django.utils import timezone
 from datetime import datetime
 from core.settings import MINIMUM
@@ -40,10 +40,14 @@ def get_monthly_product_in(request):
 def get_monthly_yearly_sales(request):
     data = (
         SaleModel.objects.annotate(
-            year=ExtractYear("sale_date"), month=ExtractMonth("sale_date")
+            year=ExtractYear("sale_date"), 
+            month=ExtractMonth("sale_date")
         )
         .values("year", "month")
-        .annotate(total=Sum("sale_amount"))
+        .annotate(
+            total_paid=Sum(F("sale_product__product_price") * F('sale_quantity')),
+            total=Round(F('total_paid') + (F('total_paid') / 1.12) * 0.12, 2)
+        )
         .order_by("year", "month")
     )
 
@@ -79,7 +83,6 @@ def get_monthly_yearly_sales(request):
 def index(request):
     today_date = timezone.now().date()
     last_week = today_date - timezone.timedelta(days=7)
-    # total_sale = SaleModel.objects.aggregate(sale=Sum("sale_amount"))
     warehouse_product_count = WarehouseProductModel.objects.all().count()
     product_count_today = (
         WarehouseProductModel.objects.filter(
@@ -88,7 +91,12 @@ def index(request):
         .all()
         .count()
     )
-    latest_transactions = SaleModel.objects.all().order_by("-sale_date_added")[:7]
+  
+    latest_transactions = InvoiceRequestModel.objects.values('customer_name').annotate(
+        total_paid=Sum(F('request_order__sale_quantity') * F('request_order__sale_product__product_price')),
+        new_amount_with_tax=Round(F('total_paid') + (F('total_paid') / 1.12) * 0.12, 2),
+    ).prefetch_related('request_order__sale_product__product_warehouse_product')[:7]
+    
     last_weeks_data = WarehouseProductModel.objects.filter(
         warehouse_product_date_added__range=[last_week, today_date]
     ).count()
@@ -98,7 +106,6 @@ def index(request):
     ).all()
 
     context = {
-        # "total_sale": total_sale,
         "total_products_count": warehouse_product_count,
         "todays_product_count": product_count_today,
         "warehouseproduct_count": warehouse_product_count,

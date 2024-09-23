@@ -394,12 +394,12 @@ def manager_page(request):
     # total_sale = SaleModel.objects.aggregate(sale=Sum('sale_amount'))
     warehouse_product_count = WarehouseProductModel.objects.all().count()
     product_count_today = WarehouseProductModel.objects.filter(warehouse_product_date_added__date=today_date).all().count()
-    latest_transactions = SaleModel.objects.all().order_by('-sale_date_added')[:7]
+    latest_transactions = InvoiceRequestModel.objects.all().order_by('-request_order__sale_date')[:7]
     last_weeks_data = WarehouseProductModel.objects.filter(warehouse_product_date_added__range=[last_week, today_date]).count()
 
     warehouse_product_stock_check = WarehouseProductModel.objects.filter(warehouse_product_stock__lt=MINIMUM).all()
 
-
+    print(" this is the trans:", latest_transactions)
     context = {
         # 'total_sale':total_sale,
         'total_products_count':warehouse_product_count,

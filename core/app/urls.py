@@ -38,9 +38,12 @@ urlpatterns = [
     path('manager/sales/report',manager_sales_index,name="manager_sales_index"),
     path('attendant/',attendant_page,name="attendant_page"),
     path('attendant/sales/invoice/latest',attendant_sales_invoice_page,name="attendant_sales_invoice_page"),
-    path('attendant/sales/invoice/download/<str:name>/<str:encoder>/<str:invoice_type>',generate_sales_invoice,name="generate_sales_invoice"),
+
+    # Invoice URL 
+    path('attendant/sales/invoice/download/<str:customer>/<str:encoder>/<int:request_id>',generate_sales_invoice,name="generate_sales_invoice"),
+
     path('attendant/sales/edit/<pk>',AttendantSaleUpdateView.as_view(),name="attendant_sale_edit"),
-    path('sales/invoice/download/<str:name>/<str:encoder>',generate_sales_invoice_admin,name="generate_sales_invoice_admin"),
+    path('sales/invoice/download/<str:customer>/<str:encoder>/<int:request_id>',generate_sales_invoice_admin,name="generate_sales_invoice_admin"),
 
 
     path("invoice/request",request_list,name="request_list"),

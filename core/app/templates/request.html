@@ -34,8 +34,16 @@
                             {{ request.request_by.username }}
                         </span>
                     </td>
-                    <td>{{ request.request_order.sale_customername }}</td>
-                    <td>{{ request.request_order.sale_product.product_warehouse_product.warehouse_product_name }}</td>
+                    <td>{{ request.customer_name }}</td>
+                    <td>
+                        <ul>
+                        {% for order in request.request_order.all %}
+                            <li>
+                                {{ order.sale_product.product_warehouse_product.warehouse_product_name }}
+                            </li>
+                        {% endfor %}
+                        </ul>
+                    </td>
                     <td>
                         <span class="badge bg-label-{{ request.request_status|yesno:'primary,danger' }} me-1">
                             {{ request.request_status|yesno:'Approved,Need Approval' }}

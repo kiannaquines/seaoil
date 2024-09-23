@@ -93,17 +93,19 @@
             <tr>
                 <th class="withBackground">Product</th>
                 <th class="withBackground">Customer</th>
+                <th class="withBackground">Encoder</th>
                 <th class="withBackground">Amount</th>
                 <th class="withBackground">Quantity</th>
                 <th class="withBackground">Date Purchased</th>
             </tr>
             {% for sale in sales %}
             <tr>
-                <td>{{ sale.sale_product.product_warehouse_product.warehouse_product_name }}</td>
-                <td>{{ sale.sale_customername }}</td>
-                <td>{{ sale.sale_amount }}</td>
+                <td>{{ sale.product }}</td>
+                <td>{{ sale.customer }}</td>
+                <td>{{ sale.encoder }}</td>
+                <td>{{ sale.price }}</td>
                 <td>{{ sale.sale_quantity }}</td>
-                <td>{{ sale.sale_date_added }}</td>
+                <td>{{ sale.sale_date }}</td>
             </tr>
             {% endfor %}
         </table>

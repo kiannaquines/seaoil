@@ -21,7 +21,8 @@
                         <caption class="ms-3">Sales list</caption>
                         <thead>
                             <tr>
-                                <th>Lubricant</th>
+                                <th>Product Name</th>
+                                <th>Product Image</th>
                                 <th>Price</th>
                                 <th>Total Order</th>
                                 <th>Encoded By</th>
@@ -32,6 +33,9 @@
                             {% for sale in sales_invoice %}
                             <tr>
                                 <td>{{ sale.sale_product.product_warehouse_product.warehouse_product_name }}</td>
+                                <td>
+                                    <img src="{{ sale.sale_product.product_warehouse_product.warehouse_product_picture.url }}" alt="{{ sale.sale_product.product_warehouse_product.warehouse_product_name }}" width="70" height="70" class="img-fluid" srcset="">
+                                </td>
                                 <td>{{ sale.sale_product.product_price }}</td>
                                 <td>{{ sale.sale_quantity }}</td>
                                 <td>{{ sale.encoded_by }}</td>

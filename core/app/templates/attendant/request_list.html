@@ -58,7 +58,8 @@
                     <td>{{ request_sale.requested_date }}</td>
                     <td>
                         {% if request_sale.request_status %}
-                            <a href="#" class="btn btn-primary">
+                            <a href="{% url 'generate_sales_invoice' customer=request_sale.customer_name encoder=request.user.username request_id=request_sale.request_id %}
+                            " class="btn btn-primary">
                                 Download
                             </a>
                         {% else %}

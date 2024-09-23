@@ -126,21 +126,21 @@
                 <th class="withBackground">Price</th>
                 <th class="withBackground">Total</th>
             </tr>
-            {% for sale in invoice %}
-            <tr>
-                <td class="no-border">
-                    {{ sale.sale_product.product_warehouse_product.warehouse_product_name }}
-                </td>
-                <td class="no-border">{{ sale.sale_quantity }}x</td>
-                <td class="no-border">
-                    <img src="{{ peso_path }}" class="imgProp">
-                    <span style="margin-left: 5px;">{{ sale.sale_amount }}</span>
-                </td>
-                <td class="no-border"> 
-                    <img src="{{ peso_path }}" class="imgProp"> 
-                    <span style="margin-left: 5px;">{{ sale.per_order_total_price }}</span>
-                </td>
-            </tr>
+            {% for item in total_prices_per_order %}
+                <tr>
+                    <td class="no-border">
+                        {{ item.order.sale_product.product_warehouse_product.warehouse_product_name }}
+                    </td>
+                    <td class="no-border">{{ item.order.sale_quantity }}x</td>
+                    <td class="no-border">
+                        <img src="{{ peso_path }}" class="imgProp">
+                        <span style="margin-left: 5px;">{{ item.order.sale_product.product_price }}</span>
+                    </td>
+                    <td class="no-border"> 
+                        <img src="{{ peso_path }}" class="imgProp"> 
+                        <span style="margin-left: 5px;">{{ item.total_price }}</span> <!-- Display total price -->
+                    </td>
+                </tr>
             {% endfor %}
             <tr>
                 <td colspan="2"></td>

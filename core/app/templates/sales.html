@@ -28,6 +28,7 @@
             <thead>
                 <tr>
                     <th>Product Name</th>
+                    <th>Product Image</th>
                     <th>Encoded By</th>
                     <th>Quantity</th>
                     <th>Date Added</th>
@@ -41,6 +42,9 @@
                         <span class="fw-medium">
                             {{ sale.sale_product.product_warehouse_product.warehouse_product_name }}
                         </span>
+                    </td>
+                    <td>
+                        <img src="{{ sale.sale_product.product_warehouse_product.warehouse_product_picture.url }}" alt="{{ sale.sale_product.product_warehouse_product.warehouse_product_name }}" width="70" height="70" class="img-fluid" srcset="">
                     </td>
                     <td>{{ sale.encoded_by }}</td>
                     <td>{{ sale.sale_quantity }}</td>
